@@ -1,1 +1,1 @@
-# kiwi-cli
+# epic-cli
