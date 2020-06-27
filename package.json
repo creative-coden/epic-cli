@@ -1,0 +1,33 @@
+{
+  "name": "epic-cli",
+  "version": "1.0.0",
+  "description": "Tool for setting up Spring Boot Microservice Project",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "epic": "bin/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Masrath-Shaik/epic-cli.git"
+  },
+  "keywords": [
+    "spring",
+    "boot"
+  ],
+  "author": "Masrat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Masrath-Shaik/epic-cli/issues"
+  },
+  "homepage": "https://github.com/Masrath-Shaik/epic-cli#readme",
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "commander": "^5.1.0",
+    "figlet": "^1.4.0",
+    "inquirer": "^7.1.0",
+    "yargs": "^15.3.1"
+  }
+}
