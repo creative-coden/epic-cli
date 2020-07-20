@@ -12,7 +12,7 @@ module.exports=async function createApp(){
         }
         console.log(response);
         if(response!=null && response.backEnd === 'Spring Boot'){
-            springBootSetup();
+            springBootSetup(response.appName);
         }
     }catch(error){
         console.error(error);        
