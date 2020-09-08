@@ -1,28 +1,7 @@
-async function p1(user) {
-  //create files
-  //create directory
-  //initial repo
-
-  return 'react';
-}
-
-async function p2(options) {
-  //something
-  return ' client';
-}
-
-async function p3(options) {
-  return 'koa';
-}
-
-async function p4(options) {
-  return 'server';
-}
-
 module.exports = (function setup() {
   const _private = {
-    react: [p1, p2],
-    koa: [p3, p4],
+    react: [],
+    koa: [],
     userOptions: null,
     applicationLayer: [],
     get: function get() {
