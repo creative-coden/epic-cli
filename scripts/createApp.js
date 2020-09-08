@@ -1,6 +1,7 @@
 const prompt = require('../etc/questions.js');
 const inquirer = require('inquirer');
 const springBootSetup = require('./springBootSetup.js');
+const { facade } = require('./setup');
 
 module.exports = async function createApp() {
   try {
@@ -10,12 +11,8 @@ module.exports = async function createApp() {
       frontEnd: answers.frontEnd,
       backEnd: answers.backEnd,
     };
-    if (response != null && response.backEnd === 'Spring Boot') {
-      springBootSetup(response.appName);
-    }
+    facade(response);
   } catch (error) {
     console.error(error);
   }
 };
-
-
