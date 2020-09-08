@@ -1,2 +1,2 @@
 # epic-cli
-(/epic.png)
+![EPIC Logo](./epic.png)
