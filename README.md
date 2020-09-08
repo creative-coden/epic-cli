@@ -1,1 +1,2 @@
 # epic-cli
+(/epic.png)
