@@ -5,13 +5,13 @@ const { facade } = require('./setup');
 
 module.exports = async function createApp() {
   try {
-    const answers = await inquirer.prompt(prompt.questions);
-    const response = {
-      appName: answers.appName,
-      frontEnd: answers.frontEnd,
-      backEnd: answers.backEnd,
-    };
-    facade(response);
+    let responses = {};
+    const introAnswers = await inquirer.prompt(prompt.introQuestions);
+    responses = {...introAnswers};
+    const merge = prompt.mergeResponses(responses);
+    const secondaryUserResponses = await inquirer.prompt(merge);
+    console.log("secondaryUserResponses",secondaryUserResponses);
+    //facade(response);
   } catch (error) {
     console.error(error);
   }

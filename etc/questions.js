@@ -1,25 +1,65 @@
 const options = require('./options.js');
-const { checkSpecialCharacters } = require('./appNameValidation.js');
+const { checkSpecialCharacters, validateGithubUrl } = require('./appNameValidation.js');
 
-exports.questions = [
+const frontEnd = {
+  type: 'list',
+  name: 'frontEnd',
+  message: 'Select the front end',
+  choices: options.frontEnd
+}
+
+const backEnd = {
+  type: 'list',
+  name: 'backEnd',
+  message: 'Select the back end',
+  choices: options.backEnd
+}
+
+const gitHubFrontEndUrl =  {
+  type: 'input',
+  name: 'gitHubFrontEndUrl',
+  message: 'Enter GitHub URL for FrontEnd',
+  validate: function validate(input){
+    return validateGithubUrl(input);
+  },
+}
+
+const gitHubBackEndUrl = {
+  type: 'input',
+  name: 'gitHubBackEndUrl',
+  message: 'Enter GitHub URL for BackEnd',
+  validate: function validate(input){
+    return validateGithubUrl(input);
+  },
+}
+
+exports.introQuestions = [
   {
     type: 'input',
     name: 'appName',
     message: 'Name your Application',
-    validate: function validate(input){
-        return checkSpecialCharacters(input);
-    }
+    validate: function validate(input) {
+      return checkSpecialCharacters(input);
+    },
   },
   {
     type: 'list',
-    name: 'frontEnd',
-    message: 'Select the FrontEnd',
-    choices: options.frontEnd,
+    name: 'setUp',
+    message: 'Choose your Application setup',
+    choices: options.setUp,
   },
-  {
-    type: 'list',
-    name: 'backEnd',
-    message: 'Select the BackEnd',
-    choices: options.backEnd,
-  },
-];
+]
+
+exports.mergeResponses= function mergeResponses(userInput){
+  let merge = [];
+  if(userInput.setUp === 'FrontEnd'){
+    merge = [{...frontEnd},{...gitHubFrontEndUrl}];
+  }
+  if(userInput.setUp === 'BackEnd'){
+    merge = [{...backEnd},{...gitHubBackEndUrl}];
+  }
+  if(userInput.setUp === 'Both'){
+    merge = [{...frontEnd},{...gitHubFrontEndUrl},{...backEnd},{...gitHubBackEndUrl}];
+  }
+  return merge;
+}

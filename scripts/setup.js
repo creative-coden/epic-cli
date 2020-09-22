@@ -9,10 +9,10 @@ module.exports = (function setup() {
     },
     set: function set(options) {
       this.userOptions = options;
-      if (options.frontEnd) {
+      if (!options.frontEnd.includes('N/A')) {
         this.applicationLayer.push(options.frontEnd.toLowerCase());
       }
-      if (options.backEnd) {
+      if (!options.backEnd.includes('N/A')) {
         this.applicationLayer.push(options.backEnd.toLowerCase());
       }
     },
