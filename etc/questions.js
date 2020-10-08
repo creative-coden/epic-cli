@@ -1,39 +1,39 @@
 const options = require('./options.js');
-const { checkSpecialCharacters, validateGithubUrl } = require('./appNameValidation.js');
+const { checkSpecialCharacters, validateGithubUrl } = require('./validation.js');
 
 const frontEnd = {
   type: 'list',
   name: 'frontEnd',
   message: 'Select the front end',
-  choices: options.frontEnd
-}
+  choices: options.frontEnd,
+};
 
 const backEnd = {
   type: 'list',
   name: 'backEnd',
   message: 'Select the back end',
-  choices: options.backEnd
-}
+  choices: options.backEnd,
+};
 
-const gitHubFrontEndUrl =  {
+const gitHubFrontEndUrl = {
   type: 'input',
   name: 'gitHubFrontEndUrl',
   message: 'Enter GitHub URL for FrontEnd',
-  validate: function validate(input){
+  validate: function validate(input) {
     return validateGithubUrl(input);
   },
-}
+};
 
 const gitHubBackEndUrl = {
   type: 'input',
   name: 'gitHubBackEndUrl',
   message: 'Enter GitHub URL for BackEnd',
-  validate: function validate(input){
+  validate: function validate(input) {
     return validateGithubUrl(input);
   },
-}
+};
 
-exports.introQuestions = [
+exports.appSetupQuestions = [
   {
     type: 'input',
     name: 'appName',
@@ -48,18 +48,18 @@ exports.introQuestions = [
     message: 'Choose your Application setup',
     choices: options.setUp,
   },
-]
+];
 
-exports.mergeResponses= function mergeResponses(userInput){
+exports.mergeResponses = function mergeResponses(userInput) {
   let merge = [];
-  if(userInput.setUp === 'FrontEnd'){
-    merge = [{...frontEnd},{...gitHubFrontEndUrl}];
+  if (userInput.setUp === 'FrontEnd') {
+    merge = [{ ...frontEnd }, { ...gitHubFrontEndUrl }];
   }
-  if(userInput.setUp === 'BackEnd'){
-    merge = [{...backEnd},{...gitHubBackEndUrl}];
+  if (userInput.setUp === 'BackEnd') {
+    merge = [ { ...backEnd }, { ...gitHubBackEndUrl }];
   }
-  if(userInput.setUp === 'Both'){
-    merge = [{...frontEnd},{...gitHubFrontEndUrl},{...backEnd},{...gitHubBackEndUrl}];
+  if (userInput.setUp === 'Both') {
+    merge = [{ ...frontEnd }, { ...gitHubFrontEndUrl }, { ...backEnd }, { ...gitHubBackEndUrl }];
   }
   return merge;
-}
+};
