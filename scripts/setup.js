@@ -1,7 +1,9 @@
+const reactArray = require('./reactArray');
+
 module.exports = (function setup() {
-  const _private = {
-    react: [],
-    koa: [],
+  const _config = {
+    react: reactArray,
+    koa: reactArray,
     userOptions: null,
     applicationLayer: [],
     get: function get() {
@@ -9,24 +11,24 @@ module.exports = (function setup() {
     },
     set: function set(options) {
       this.userOptions = options;
-      if (!options.frontEnd.includes('N/A')) {
+      if (options.frontEnd) {
         this.applicationLayer.push(options.frontEnd.toLowerCase());
       }
-      if (!options.backEnd.includes('N/A')) {
+      if (options.backEnd) {
         this.applicationLayer.push(options.backEnd.toLowerCase());
       }
     },
     run: async function run() {
       for (let app of this.applicationLayer) {
         try {
-         await this.initiateAppSetup(app);
+          await this.initiateAppSetup(app);
         } catch (error) {
           console.error(error);
         }
       }
     },
-    initiateAppSetup: async function initiateAppSetup(layer) {
-      return _private[layer].reduce(async function runInSequence(promiseChain, currentFunction) {
+    initiateAppSetup: async function initiateAppSetup(framework) {
+      return _config[framework].reduce(async function runInSequence(promiseChain, currentFunction) {
         try {
           const result = await promiseChain;
           return currentFunction(result);
@@ -37,10 +39,10 @@ module.exports = (function setup() {
     },
   };
   return {
-    facade: function facade(args) {
+    runAppSetup: function runAppSetup(args) {
       try {
-        _private.set(args);
-        _private.run();
+        _config.set(args);
+        _config.run();
       } catch (error) {
         console.error(error);
       }

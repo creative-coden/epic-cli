@@ -1,3 +1,3 @@
-exports.frontEnd=['React'];
-exports.backEnd=['Spring Boot', 'Koa'];
-exports.setUp=['FrontEnd','BackEnd','Both'];
+exports.frontEnd = ['React'];
+exports.backEnd = ['Spring Boot', 'Koa'];
+exports.setup = ['frontEnd', 'backEnd', 'both'];

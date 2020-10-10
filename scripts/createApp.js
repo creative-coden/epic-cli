@@ -1,7 +1,7 @@
 const prompt = require('../etc/questions.js');
 const inquirer = require('inquirer');
 const springBootSetup = require('./springBootSetup.js');
-const { facade } = require('./setup');
+const { runAppSetup } = require('./setup');
 
 // git@bitbucket.org:username/reponame.git
 module.exports = async function createApp() {
@@ -16,8 +16,7 @@ module.exports = async function createApp() {
       ...appSetupAnswers,
       ...appConfigAnswers,
     };
-    console.log(responses, 'final outcome');
-    //facade(response);
+    runAppSetup(responses);
   } catch (error) {
     console.error(error);
   }
