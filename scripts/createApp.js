@@ -1,21 +1,23 @@
 const prompt = require('../etc/questions.js');
 const inquirer = require('inquirer');
 const springBootSetup = require('./springBootSetup.js');
+const { runAppSetup } = require('./setup');
 
+// git@bitbucket.org:username/reponame.git
 module.exports = async function createApp() {
   try {
-    const answers = await inquirer.prompt(prompt.questions);
-    const response = {
-      appName: answers.appName,
-      frontEnd: answers.frontEnd,
-      backEnd: answers.backEnd,
+    let responses = {};
+    let setup = await inquirer.prompt(prompt.appSetupQuestions);
+    let appSetupAnswers = { ...setup };
+
+    const config = prompt.mergeResponses(appSetupAnswers);
+    const appConfigAnswers = await inquirer.prompt(config);
+    responses = {
+      ...appSetupAnswers,
+      ...appConfigAnswers,
     };
-    if (response != null && response.backEnd === 'Spring Boot') {
-      springBootSetup(response.appName);
-    }
+    runAppSetup(responses);
   } catch (error) {
     console.error(error);
   }
 };
-
-
