@@ -1,9 +1,13 @@
-const reactArray = require('./reactArray');
+const { createDirectory } = require('./createDirectory');
+const { createDirectoryFiles } = require('./createDirectoryFiles');
 
+function presetup() {
+  return [].concat(createDirectory, createDirectoryFiles, [...arguments]);
+}
 module.exports = (function setup() {
   const _config = {
-    react: reactArray,
-    koa: reactArray,
+    react: presetup(),
+    koa: presetup(),
     userOptions: null,
     applicationLayer: [],
     get: function get() {

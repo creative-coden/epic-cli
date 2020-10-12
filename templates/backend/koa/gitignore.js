@@ -1,4 +1,5 @@
-# Logs
+module.exports = function(){
+    return `# Logs
 logs
 *.log
 npm-debug.log*
@@ -113,4 +114,5 @@ dist
 .yarn/unplugged
 .yarn/build-state.yml
 .yarn/install-state.gz
-.pnp.*
+.pnp.*`
+}
