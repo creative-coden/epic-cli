@@ -1,9 +1,9 @@
 const { createDirectory } = require('./createDirectory');
 const { createDirectoryFiles } = require('./createDirectoryFiles');
 const { initializeGitRepo } = require('./initalizeGitRepo');
-
+const { initializeNPMRepo } = require('./initializeNPMRepo');
 function presetup() {
-  return [].concat(createDirectory, initializeGitRepo, createDirectoryFiles, [...arguments]);
+  return [].concat(createDirectory, initializeGitRepo, createDirectoryFiles, initializeNPMRepo, [...arguments]);
 }
 module.exports = (function setup() {
   const _config = {
