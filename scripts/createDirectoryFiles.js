@@ -1,9 +1,9 @@
 const { promises: fsPromises } = require('fs');
-const { resolve } = require('path');
 const { koaFiles } = require('./koaFiles');
 
 module.exports = (function fileSetup() {
   const _files = {
+    completed: false,
     appSetup: null,
     react: [],
     appDirectories: [],
@@ -70,15 +70,23 @@ module.exports = (function fileSetup() {
     retrieveResults: function retrieveResults() {
       return this.appSetup;
     },
+    isCompleted: function isCompleted() {
+      return this.completed;
+    },
+    setCompleted: function setCompleted() {
+      this.completed = true;
+    },
   };
   return {
     createDirectoryFiles: async function createDirectoryFiles(args) {
+      if (_files.isCompleted()) return;
       try {
         _files.set(args);
         _files.prependPath();
         await _files.writeToFiles();
-        // const results = _files.retrieveResults();
-        // return results;
+        const results = _files.retrieveResults();
+        _files.setCompleted();
+        return results;
       } catch (error) {
         console.error(error);
       }
