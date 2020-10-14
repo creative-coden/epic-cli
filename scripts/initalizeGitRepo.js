@@ -1,6 +1,4 @@
 const { spawn } = require('child_process');
-const { promisify } = require('util');
-const spawnPromise = promisify(spawn);
 
 module.exports = (function initializeGitRepo() {
   const _git = {
