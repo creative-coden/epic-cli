@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/Masrath-Shaik/epic-cli#readme",
   "dependencies": {
-    "chalk": "^4.0.0",
+    "chalk": "^4.1.0",
     "commander": "^5.1.0",
     "figlet": "^1.4.0",
     "inquirer": "^7.1.0",
