@@ -12,16 +12,16 @@ module.exports = (function fileSetup() {
       this.appSetup = Object.assign({}, args);
       switch (this.appSetup.setup.toLowerCase()) {
         case 'both':
-          this.appDirectories.push(
-            ...this[this.appSetup.frontEnd.toLowerCase()],
-            ...this[this.appSetup.backEnd.toLowerCase()],
+          this.appDirectories = [].concat(
+            this[this.appSetup.frontEnd.toLowerCase()],
+            this[this.appSetup.backEnd.toLowerCase()],
           );
           return;
         case 'frontend':
-          this.appDirectories.push(...this[this.appSetup.frontEnd.toLowerCase()]);
+          this.appDirectories = [].concat(this[this.appSetup.frontEnd.toLowerCase()]);
           return;
         case 'backend':
-          this.appDirectories.push(...this[this.appSetup.backEnd.toLowerCase()]);
+          this.appDirectories = [].concat(this[this.appSetup.backEnd.toLowerCase()]);
           return;
         default:
           throw new Error('Error with app setup configuration');
