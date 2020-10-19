@@ -2,13 +2,16 @@ const { createDirectory } = require('./createDirectory');
 const { createDirectoryFiles } = require('./createDirectoryFiles');
 const { initializeGitRepo } = require('./initalizeGitRepo');
 const { initializeNPMRepo } = require('./initializeNPMRepo');
+const { installPackageDependencies } = require('./installPackageDependencies');
+
 function presetup() {
   return [].concat(createDirectory, initializeGitRepo, createDirectoryFiles, initializeNPMRepo, [...arguments]);
 }
+//TODO lowercase app name
 module.exports = (function setup() {
   const _config = {
     react: presetup(),
-    koa: presetup(),
+    koa: presetup(installPackageDependencies),
     userOptions: null,
     applicationLayer: [],
     get: function get() {
@@ -17,10 +20,10 @@ module.exports = (function setup() {
     set: function set(options) {
       this.userOptions = options;
       if (options.frontEnd) {
-        this.applicationLayer.push(options.frontEnd.toLowerCase());
+        this.applicationLayer = [].concat(options.frontEnd.toLowerCase());
       }
       if (options.backEnd) {
-        this.applicationLayer.push(options.backEnd.toLowerCase());
+        this.applicationLayer = [].concat(options.backEnd.toLowerCase());
       }
     },
     run: async function run() {
