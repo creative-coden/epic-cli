@@ -24,15 +24,15 @@ module.exports = (function directorySetup() {
         case 'both':
           this.appSetup.clientDirectory = resolve(__dirname, `${directoryPath}/${this.appSetup.appName}_client`);
           this.appSetup.serverDirectory = resolve(__dirname, `${directoryPath}/${this.appSetup.appName}_service`);
-          this.appDirectories.push(this.appSetup.clientDirectory, this.appSetup.serverDirectory, ...this.appendPath());
+          this.appDirectories = [].concat(this.appSetup.clientDirectory, this.appSetup.serverDirectory, this.appendPath());
           return;
         case 'frontend':
           this.appSetup.clientDirectory = resolve(__dirname, `${directoryPath}/${this.appSetup.appName}_client`);
-          this.appDirectories.push(this.appSetup.clientDirectory, ...this.appendPath());
+          this.appDirectories = [].concat(this.appSetup.clientDirectory, this.appendPath());
           return;
         case 'backend':
           this.appSetup.serverDirectory = resolve(__dirname, `${directoryPath}/${this.appSetup.appName}_service`);
-          this.appDirectories.push(this.appSetup.serverDirectory, ...this.appendPath());
+          this.appDirectories = [].concat(this.appSetup.serverDirectory, this.appendPath());
           return;
         default:
           throw new Error('Error with app setup configuration');

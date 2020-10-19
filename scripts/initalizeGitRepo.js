@@ -21,7 +21,7 @@ module.exports = (function initializeGitRepo() {
           this.gitRepos = [].concat({ url: this.appSetup.gitHubFrontEndUrl, folder: this.appSetup.clientDirectory });
           return;
         case 'backend':
-          this.appDirectories.push(this.appSetup.serverDirectory);
+          this.appDirectories = [].concat(this.appSetup.serverDirectory);
           this.gitRepos = [].concat({ url: this.appSetup.gitHubBackEndUrl, folder: this.appSetup.serverDirectory });
           return;
         default:

@@ -1,5 +1,5 @@
 module.exports = function () {
-  return `import app from './config/app.mjs';
+  return `import app from './server/config/app.mjs';
 import util from 'util';
 import http from 'http';
 
