@@ -12,6 +12,7 @@ module.exports = {
       'koa-router',
       'morgan',
       'redis',
+      'clinic'
     ],
     devDependencies: [
       'eslint',
