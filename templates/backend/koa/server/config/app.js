@@ -16,6 +16,7 @@ app.use(logger());
 app.use(bodyParser());
 app.use(compress());
 app.use(respond());
+app.use(respond({ statusMethods: { accepted: 202 } }));
 app.use(routes);
 app.use(router.allowedMethods());
 

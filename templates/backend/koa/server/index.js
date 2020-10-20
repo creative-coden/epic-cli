@@ -21,7 +21,7 @@ process.on('SIGINT', function signalInt() {
 });
 
 (async function startApp() {
-  await server.listen(process.env.SERVER_PORT);
+  await server.listen(5000);
   console.log('server is up and running');
 })();
   

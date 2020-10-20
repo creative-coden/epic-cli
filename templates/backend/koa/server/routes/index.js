@@ -1,13 +1,22 @@
 module.exports = function(){
     return `import Router from 'koa-router';
-import { fetchApiController, updateApiController } from '../controller/api.controller.mjs';
+import {
+  createCustomerController,
+  fetchCustomerController,
+  updateCustomerController,
+  deleteCustomerController,
+} from '../controller/customer.controller.mjs';
 
 const router = new Router();
 
-router.get('/getCharacters', fetchApiController)
-.post('/updateCharacters' , updateApiController);
+router
+  .post('/customers', createCustomerController)
+  .get('/customers', fetchCustomerController)
+  .get('/customers/:id', fetchCustomerController)
+  .put('/customers/:id', updateCustomerController)
+  .delete('/customers/:id', deleteCustomerController);
 
-export default router.routes();`
+export default router.routes()`
 }
 
 
