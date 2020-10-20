@@ -5,7 +5,7 @@ const koa = [
   'server/controller',
   'server/routes',
   'server/services',
-  'server/utils',
+  'server/middleware',
   'server/tests/fixtures',
   'server/tests/integration',
   'server/tests/unit',
