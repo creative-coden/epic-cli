@@ -1,12 +1,15 @@
 module.exports = function(){
     return `import Router from 'koa-router';
+import multer from '@koa/multer';
 import {
   createCustomerController,
   fetchCustomerController,
   updateCustomerController,
   deleteCustomerController,
 } from '../controller/customer.controller.mjs';
+import { uploadController } from '../controller/upload.controller.mjs';
 
+const upload = multer();
 const router = new Router();
 
 router
@@ -16,7 +19,9 @@ router
   .put('/customers/:id', updateCustomerController)
   .delete('/customers/:id', deleteCustomerController);
 
-export default router.routes()`
+router.post('/excel', upload.single('excel'), uploadController);
+
+export default router.routes();`
 }
 
 
