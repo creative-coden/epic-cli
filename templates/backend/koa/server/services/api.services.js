@@ -1,41 +1,55 @@
 module.exports = function(){
-  return `import {
-    createCustomerService,
-    fetchCustomerService,
-    updateCustomerService,
-    deleteCustomerService,
-  } from '../services/customer.service.mjs';
+  return `export let customers = [
+    { id: 1, name: 'Judy Hopps' },
+    { id: 2, name: 'Nick Wilde' },
+    { id: 3, name: 'Cheif Bogo' },
+    { id: 4, name: 'Clawhauser' },
+  ];
   
-  export async function createCustomerController(ctx) {
+  function findElementByIndex(id) {
+    if (!id) return -1;
+    return customers.findIndex(function findIndex(item) {
+      return item.id === id;
+    });
+  }
+  
+  export async function createCustomerService(customer) {
     try {
-      ctx.created(await createCustomerService(ctx.request.body));
+      customers.splice(customers.legnth, 0, customer);
+      return customers;
     } catch (error) {
-      console.error('error', error);
+      console.error(error);
     }
   }
   
-  export async function fetchCustomerController(ctx) {
+  export async function fetchCustomerService(id) {
     try {
-      ctx.ok(await fetchCustomerService(Number(ctx.params.id)));
+      const index = findElementByIndex(id);
+      return index === -1 ? customers : customers[index];
     } catch (error) {
-      console.error('error', error);
+      console.error(error);
     }
   }
   
-  export async function updateCustomerController(ctx) {
+  export async function updateCustomerService(id, customer) {
     try {
-      ctx.ok(await updateCustomerService(Number(ctx.params.id), ctx.request.body));
+      const index = findElementByIndex(id);
+      customers[index] = customer;
+      return customers;
     } catch (error) {
-      console.error('error', error);
+      console.error(error);
     }
   }
   
-  export async function deleteCustomerController(ctx) {
+  export async function deleteCustomerService(id) {
     try {
-      ctx.accepted(await deleteCustomerService(Number(ctx.params.id)));
+      const index = findElementByIndex(id);
+      customers.splice(index, 1);
+      return customers;
     } catch (error) {
-      console.error('error', error);
+      console.error(error);
     }
-  }`
+  }
+  `
 }
 

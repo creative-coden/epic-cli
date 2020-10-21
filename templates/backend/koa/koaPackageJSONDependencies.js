@@ -1,8 +1,6 @@
 module.exports = {
   koa: {
     dependencies: [
-      'body-parser',
-      'compression',
       'koa',
       'koa-bodyparser',
       'koa-compress',
@@ -10,6 +8,7 @@ module.exports = {
       'koa-logger',
       'koa-respond',
       'koa-router',
+      '@koa/multer',
       'morgan',
       'redis',
       'clinic'
