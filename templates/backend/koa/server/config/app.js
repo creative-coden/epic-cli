@@ -7,7 +7,9 @@ import Router from 'koa-router';
 import respond from 'koa-respond';
 import helmet from 'koa-helmet';
 import routes from '../routes/index.mjs';
+import env from 'dotenv';
 
+env.config();
 const app = new Koa();
 const router = new Router();
 

@@ -1,6 +1,7 @@
 const { promises: fsPromises } = require('fs');
 const { resolve } = require('path');
 const koa = [
+  'server/libs',
   'server/config',
   'server/controller',
   'server/routes',
