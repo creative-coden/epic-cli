@@ -1,29 +1,30 @@
 module.exports = function () {
-  return `import app from './server/config/app.mjs';
-import util from 'util';
+  return `import util from 'util';
 import http from 'http';
+
+import app from './server/config/app.mjs';
+import logger from './server/libs/logger';
 
 const server = http.createServer(app.callback());
 
 process.on('uncaughtException', function uncaughtException(error) {
-  console.log('Api world crashed' + error.stack || error);
+  logger.error(\`\${process.env.APP_NAME} crashed \${error.stack} || \${error}\`);
 });
 
 process.on('unhandledRejection', function unhandledRejection(reason, promise) {
-  console.log(\`unhandled rejection at \${util.inspect(promise)} reason \${reason}\`);
+  logger.error(\`unhandled rejection at \${util.inspect(promise)} reason \${reason}\`);
 });
 
 process.on('SIGINT', function signalInt() {
-  console.log(\`Shutting down the services of Api\`);
+  logger.info(\`Shutting down the services of \${process.env.APP_NAME}\`);
   server.close(function close() {
     process.exit(1);
   });
 });
 
 (async function startApp() {
-  await server.listen(5000);
-  console.log('server is up and running');
-})();
-  
+  await server.listen(process.env.SERVER_PORT);
+  logger.info(``Server is up and running on port \${process.env.SERVER_PORT}\`);
+})();  
   `;
 };

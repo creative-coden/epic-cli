@@ -9,8 +9,11 @@ module.exports = {
       'koa-respond',
       'koa-router',
       '@koa/multer',
+      'multer',
+      'winston',
       'morgan',
       'redis',
+      'dotenv',
       'clinic'
     ],
     devDependencies: [
