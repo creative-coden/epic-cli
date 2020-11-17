@@ -1,15 +1,25 @@
 module.exports = function(){
     return `{
-    "extends": [
-        "important-stuff",
-        "prettier"
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["plugin:@typescript-eslint/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": 1,
+    "@typescript-eslint/no-inferrable-types": [
+      "warn", {
+        "ignoreParameters": true
+      }
     ],
-    "plugins": [
-        "prettier"
-    ],
-    "env": {
-        "node": true
-    }
+    "@typescript-eslint/no-unused-vars": "warn"
+  }
 }`
 }
 

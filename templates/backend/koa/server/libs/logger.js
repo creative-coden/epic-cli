@@ -1,72 +1,31 @@
 module.exports = function(){
-    return `import os from 'os';
-import winston from 'winston';
-import env from 'dotenv';
+    return `import winston from "winston";
+import env from "dotenv";
 
 env.config();
 
-class Logger {
-  constructor(name, options = {}) {
-    this.name = name;
-    this.hostname = os.hostname();
-    this.level = options.level;
-    this.logger = winston.createLogger({
-      level: this.level,
-      defaultMeta: { service: name },
-      transports: [
-        new winston.transports.Console({
-          format: winston.format.combine(
-            winston.format.timestamp(),
-            winston.format.metadata({
-              fillExcept: ['timestamp', 'service', 'level', 'message'],
-            }),
-            winston.format.colorize(),
-            this.winstonConsoleFormat(),
-          ),
-        }),
-        new winston.transports.File({
-          filename: \`./logs/\${name}.log\`,
-          format: winston.format.combine(
-            winston.format.errors({ stack: true }),
-            winston.format.metadata(),
-            winston.format.json(),
-          ),
-        }),
-      ],
-    });
-  }
+const Logger: winston.Logger = winston.createLogger({
+  level: process.env.LOG_LEVEL || "info",
 
-  winstonConsoleFormat() {
-    return winston.format.printf(
-      function printf({ timestamp, level, message }) {
-        return \`[\${timestamp}][\${level}][\${this.name}@\${this.hostname}] \${message}.\`;
-      }.bind(this),
-    );
-  }
-
-  debug(log) {
-    this.log('debug', log);
-  }
-
-  info(log) {
-    this.log('info', log);
-  }
-
-  warn(log) {
-    this.log('warn', log);
-  }
-
-  error(log) {
-    this.log('error', log);
-  }
-
-  log(level, log) {
-    this.logger[level](JSON.stringify(log));
-  }
-}
-
-export default new Logger(process.env.APP_NAME, {
-  logLevel: process.env.LOG_LEVEL,
+  format:
+    process.env.NODE_ENV === "production"
+      ? winston.format.json()
+      : winston.format.combine(
+        winston.format.label({ label: process.env.APP_NAME}),
+        winston.format.colorize(),
+        winston.format.timestamp(),
+        winston.format.printf(function ({ level, message, label, timestamp, ...options }) {
+          if (options.metadata) return \`\${timestamp} [\${label}] \${level}: \${message} metadata: \${JSON.stringify(options.metadata)}\`;
+          return \`\${timestamp} [\${label}] \${level}: \${message}\`;
+        })
+      ),
+  defaultMeta: { service: process.env.APP_NAME },
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "error.log", level: "error" }),
+    new winston.transports.File({ filename: "combined.log" }),
+  ],
 });
-    `
+
+export default Logger;`
 }

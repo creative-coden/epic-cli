@@ -1,7 +1,10 @@
 module.exports = function(){
-    return `export async function uploadService(cxt) {
+    return `import { ParameterizedContext } from "koa";
+
+export function uploadService(ctx: ParameterizedContext): string | void {
   try {
-    return 'Uploaded successfully';
+    console.log(ctx);
+    return "Uploaded successfully";
   } catch (error) {
     console.error(error);
   }
