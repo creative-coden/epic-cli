@@ -2,7 +2,14 @@ const { spawn } = require('child_process');
 const { promises: fsPromises } = require('fs');
 const { resolve } = require('path');
 
-const koa = { scripts: { start: 'nodemon --es-module-specifier-resolution=node --experimental-modules --no-warnings ./index.mjs', test: 'npm start' } };
+const koa = {
+  scripts: {
+    build: 'npm run lint && npx tsc --build',
+    lint: 'npx tsc --noEmit && eslint "**/*.{js,ts}" --quiet --fix',
+    start: 'ts-node-dev ./index.ts',
+    test: 'npm start',
+  },
+};
 const react = { scripts: { start: 'nodemon ./server.js', test: 'npm start' } };
 
 module.exports = (function initializeNPMRepo() {
@@ -87,7 +94,7 @@ module.exports = (function initializeNPMRepo() {
       }, 800);
       const results = _npm.retrieveResults();
       _npm.setCompleted();
-        return results;
+      return results;
     },
   };
 })();
