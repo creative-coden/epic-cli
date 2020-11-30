@@ -1,27 +1,26 @@
 const { promises: fsPromises } = require('fs');
-const { koaFiles } = require('./koaFiles');
+const projectProperties = require('../modules');
 
 module.exports = (function fileSetup() {
   const _files = {
     completed: false,
     appSetup: null,
-    react: [],
     appDirectories: [],
-    koa: koaFiles,
+    projectProperties,
     set: function set(args) {
       this.appSetup = Object.assign({}, args);
-      switch (this.appSetup.setup.toLowerCase()) {
+      switch (this.appSetup.setup) {
         case 'both':
           this.appDirectories = [].concat(
-            this[this.appSetup.frontEnd.toLowerCase()],
-            this[this.appSetup.backEnd.toLowerCase()],
+            this.projectProperties[this.appSetup.frontend].files,
+             this.projectProperties[this.appSetup.backend].files,
           );
           return;
         case 'frontend':
-          this.appDirectories = [].concat(this[this.appSetup.frontEnd.toLowerCase()]);
+          this.appDirectories = [].concat(this.projectProperties[this.appSetup.frontend].files);
           return;
         case 'backend':
-          this.appDirectories = [].concat(this[this.appSetup.backEnd.toLowerCase()]);
+          this.appDirectories = [].concat( this.projectProperties[this.appSetup.backend].files);
           return;
         default:
           throw new Error('Error with app setup configuration');

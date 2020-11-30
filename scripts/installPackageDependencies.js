@@ -1,37 +1,38 @@
 const { spawn } = require('child_process');
-const packages = require('../modules/index');
+const projectProperties = require('../modules');
 
 module.exports = (function packageDependencies() {
   const _package = {
     appSetup: null,
     project: [],
-    packages,
     complete: false,
+    projectProperties,
     set: function set(args) {
       this.appSetup = Object.assign({}, args);
-      switch (this.appSetup.setup.toLowerCase()) {
+      switch (this.appSetup.setup) {
         case 'both':
           this.project = [].concat(
             {
               folder: this.appSetup.clientDirectory,
-              install: this.packages[this.appSetup.frontEnd.toLowerCase()][this.appSetup.frontEnd.toLowerCase()],
+              install: this.projectProperties[this.appSetup.frontend].projectDependencies,
+              
             },
             {
               folder: this.appSetup.serverDirectory,
-              install: this.packages[this.appSetup.backEnd.toLowerCase()][this.appSetup.backEnd.toLowerCase()],
+              install: this.projectProperties[this.appSetup.backend].projectDependencies,
             },
           );
           return;
         case 'frontend':
           this.project = [].concat({
             folder: this.appSetup.clientDirectory,
-            install: this.packages[this.appSetup.frontEnd.toLowerCase()][this.appSetup.frontEnd.toLowerCase()],
+            install: this.projectProperties[this.appSetup.frontend].projectDependencies,
           });
           return;
         case 'backend':
           this.project = [].concat({
             folder: this.appSetup.serverDirectory,
-            install: this.packages[this.appSetup.backEnd.toLowerCase()][this.appSetup.backEnd.toLowerCase()],
+            install: this.projectProperties[this.appSetup.backend].projectDependencies,
           });
           return;
         default:
@@ -71,9 +72,8 @@ module.exports = (function packageDependencies() {
         _package.set(args);
         _package.installPackages();
         _package.setComplete();
-        // const results = directory.retrieveResults();
-        // console.log(results, 'line 74');
-        // return results;
+        const results = _package.retrieveResults();
+        return results;
       } catch (error) {
         console.error(error);
       }

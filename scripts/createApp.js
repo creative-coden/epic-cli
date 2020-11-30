@@ -1,6 +1,5 @@
 const prompt = require('../etc/questions.js');
 const inquirer = require('inquirer');
-const springBootSetup = require('./springBootSetup.js');
 const { runAppSetup } = require('./setup');
 
 // git@bitbucket.org:username/reponame.git
