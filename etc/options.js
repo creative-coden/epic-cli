@@ -1,3 +1,3 @@
-exports.frontEnd = ['React'];
-exports.backEnd = ['Spring Boot', 'Koa'];
-exports.setup = ['frontEnd', 'backEnd', 'both'];
+exports.frontend = ['React'];
+exports.backend = ['Fastify'];
+exports.setup = ['frontend', 'backend', 'both'];

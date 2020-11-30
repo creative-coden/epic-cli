@@ -1,18 +1,18 @@
 const options = require('./options.js');
 const { checkSpecialCharacters, validateGithubUrl } = require('./validation.js');
 
-const frontEnd = {
+const frontend = {
   type: 'list',
-  name: 'frontEnd',
+  name: 'frontend',
   message: 'Select the front end.',
-  choices: options.frontEnd,
+  choices: options.frontend,
 };
 
-const backEnd = {
+const backend = {
   type: 'list',
-  name: 'backEnd',
+  name: 'backend',
   message: 'Select the back end.',
-  choices: options.backEnd,
+  choices: options.backend,
 };
 
 const gitHubFrontEndUrl = {
@@ -39,7 +39,7 @@ exports.appSetupQuestions = [
     name: 'appName',
     message: 'Enter name for the application.',
     validate: function validate(input) {
-      return checkSpecialCharacters(input);
+      return checkSpecialCharacters(input.toLowerCase());
     },
   },
   {
@@ -53,13 +53,13 @@ exports.appSetupQuestions = [
 exports.mergeResponses = function mergeResponses(userInput) {
   let merge = [];
   if (userInput.setup.toLowerCase() === 'frontend') {
-    merge = [{ ...frontEnd }, { ...gitHubFrontEndUrl }];
+    merge = [{ ...frontend }, { ...gitHubFrontEndUrl }];
   }
   if (userInput.setup.toLowerCase() === 'backend') {
-    merge = [ { ...backEnd }, { ...gitHubBackEndUrl }];
+    merge = [{ ...backend }, { ...gitHubBackEndUrl }];
   }
   if (userInput.setup.toLowerCase() === 'both') {
-    merge = [{ ...frontEnd }, { ...gitHubFrontEndUrl }, { ...backEnd }, { ...gitHubBackEndUrl }];
+    merge = [{ ...frontend }, { ...gitHubFrontEndUrl }, { ...backend }, { ...gitHubBackEndUrl }];
   }
   return merge;
 };

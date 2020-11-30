@@ -1,23 +1,12 @@
 const { promises: fsPromises } = require('fs');
 const { resolve } = require('path');
-const koa = [
-  'server/libs',
-  'server/config',
-  'server/controller',
-  'server/routes',
-  'server/services',
-  'server/middleware',
-  'server/tests/fixtures',
-  'server/tests/integration',
-  'server/tests/unit',
-];
+const projectProperties = require('../modules');
 
 module.exports = (function directorySetup() {
   const directory = {
     appSetup: null,
-    react: [],
     appDirectories: [],
-    koa,
+    projectProperties,
     set: function set(args) {
       this.appSetup = Object.assign({}, args);
       const directoryPath = resolve(__dirname, `../../${this.appSetup.appName}`);
@@ -48,8 +37,8 @@ module.exports = (function directorySetup() {
     appendPath: function appendPath() {
       const array =
         this.appSetup.setup === 'both'
-          ? [].concat(this[this.appSetup.frontEnd.toLowerCase()], this[this.appSetup.backEnd.toLowerCase()])
-          : this[this.appSetup[this.appSetup.setup].toLowerCase()];
+          ? [].concat(this.projectProperties[this.appSetup.frontEnd].directories, this.projectProperties[this.appSetup.backend].directories)
+          : this.projectProperties[this.appSetup.backend].directories;
       return array.reduce(
         function (acc, filePath) {
           const precedingPath = this.useDirectory(filePath);

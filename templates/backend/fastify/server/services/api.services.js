@@ -3,14 +3,17 @@ module.exports = function(){
   id: string,
   name: string
 }
+interface IParams {
+  id: string,
+}
 
-const customers: Array<iCustomers> = [
+let customers: Array<iCustomers> = [
   { id: "1", name: "Judy Hopps" },
   { id: "2", name: "Nick Wilde" },
   { id: "3", name: "Cheif Bogo" },
   { id: "4", name: "Clawhauser" },
 ];
-
+  
 function findElementByIndex(id: string) {
   if (!id) return -1;
   return customers.findIndex(function findIndex(item) {
@@ -18,11 +21,11 @@ function findElementByIndex(id: string) {
   });
 }
 
-export async function createCustomerService(customer: iCustomers): Promise<iCustomers[] | void> {
+export async function createCustomerService(customer: iCustomers[]): Promise<string | void> {
 
   try {
-    customers.splice(customers.length, 0, customer);
-    return customers;
+    customers = customer;
+    return "Successfully created customer";
   } catch (error) {
     console.error(error);
   }
@@ -36,25 +39,25 @@ export async function fetchCustomerService(): Promise<iCustomers[] | void> {
   }
 }
 
-export async function updateCustomerService(id: string, customer: iCustomers): Promise<iCustomers[] | void> {
+export async function updateCustomerService(customer: iCustomers): Promise<string | void> {
   try {
-    const index = findElementByIndex(id);
+    const index = findElementByIndex(customer.id);
     customers[index] = customer;
-    return customers;
+    return \`\${customer.name} was updated successfully.\`;
   } catch (error) {
     console.error(error);
   }
 }
 
-export async function deleteCustomerService(id: string): Promise<iCustomers[] | void> {
+export async function deleteCustomerService(customer: IParams): Promise<string | void> {
   try {
-    const index = findElementByIndex(id);
+    const index = findElementByIndex(customer.id);
+    const name = customers[index].name;
     customers.splice(index, 1);
-    return customers;
+    return \`\${name} was deleted successfully.\`;
   } catch (error) {
     console.error(error);
   }
-}  
-  `
+}`
 }
 

@@ -1,51 +1,41 @@
 const { spawn } = require('child_process');
 const { promises: fsPromises } = require('fs');
 const { resolve } = require('path');
-
-const koa = {
-  scripts: {
-    build: 'npm run lint && npx tsc --build',
-    lint: 'npx tsc --noEmit && eslint "**/*.{js,ts}" --quiet --fix',
-    start: 'ts-node-dev ./index.ts',
-    test: 'npm start',
-  },
-};
-const react = { scripts: { start: 'nodemon ./server.js', test: 'npm start' } };
+const projectProperties = require('../modules');
 
 module.exports = (function initializeNPMRepo() {
   const _npm = {
     completed: false,
     appSetup: null,
-    koa,
-    react,
     project: [],
     appDirectories: [],
+    projectProperties,
     initialized: false,
     set: function set(args) {
       this.appSetup = Object.assign({}, args);
-      switch (this.appSetup.setup.toLowerCase()) {
+      switch (this.appSetup.setup) {
         case 'both':
           this.appDirectories = [].concat(
             {
               folder: this.appSetup.clientDirectory,
-              setup: this[this.appSetup.frontEnd.toLowerCase()],
+              setup: this.projectProperties[this.appSetup.frontend].packageJsonProperties,
             },
             {
               folder: this.appSetup.serverDirectory,
-              setup: this[this.appSetup.backEnd.toLowerCase()],
+              setup: this.projectProperties[this.appSetup.backend].packageJsonProperties,
             },
           );
           return;
         case 'frontend':
           this.appDirectories = [].concat({
             folder: this.appSetup.clientDirectory,
-            setup: this[this.appSetup.frontEnd.toLowerCase()],
+            setup: this.projectProperties[this.appSetup.frontend].packageJsonProperties,
           });
           return;
         case 'backend':
           this.appDirectories = [].concat({
             folder: this.appSetup.serverDirectory,
-            setup: this[this.appSetup.backEnd.toLowerCase()],
+            setup: this.projectProperties[this.appSetup.backend].packageJsonProperties,
           });
           return;
         default:
@@ -55,13 +45,26 @@ module.exports = (function initializeNPMRepo() {
     retrieveResults: function retrieveResults() {
       return this.appSetup;
     },
+    addRunConfigToPackageJson: function addRunConfigToPackageJson(json, setup) {
+      if (!setup.runCommands.length) return json;
+      const keys = Object.keys(json);
+      const runCommands = [].concat(keys, setup.runCommands);
+      for (let property of runCommands) {
+        if (!setup.runCommands.includes(property)) {
+          continue;
+        }
+        json[property] = setup[property];
+      }
+      return json;
+    },
     updatePackageScripts: async function updatePackageScripts() {
       for (let file of this.appDirectories) {
         try {
           const json = await fsPromises.readFile(resolve(`${file.folder}/package.json`), { encoding: 'utf-8' });
           const copy = Object.assign({}, JSON.parse(json));
           copy.scripts = file.setup.scripts;
-          await fsPromises.writeFile(`${file.folder}/package.json`, JSON.stringify(copy, undefined, 2), {
+          const runCommands = this.addRunConfigToPackageJson(copy, file.setup);
+          await fsPromises.writeFile(`${file.folder}/package.json`, JSON.stringify(runCommands, undefined, 2), {
             encoding: 'utf-8',
           });
         } catch (error) {
