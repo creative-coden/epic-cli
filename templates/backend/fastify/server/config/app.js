@@ -5,8 +5,10 @@ import cors from "fastify-cors";
 import multer from "fastify-multer";
 import healthCheck from "fastify-healthcheck";
 import oas from "fastify-oas";
+import formbody from "fastify-formbody";
 import env from "dotenv";
 
+import { config } from "./config";
 import { CustomerRoutes, UploadRoutes } from "../routes";
 
 env.config();
@@ -14,13 +16,14 @@ const app = fastify({ logger: true });
 
 app.register(healthCheck);
 app.register(compress);
+app.register(formbody);
 app.register(cors);
 app.register(multer.contentParser);
 app.register(oas, {
     routePrefix: "/documentation",
     swagger: {
         info: {
-            title: \`\${process.env.APP_NAME?.replace(/_/, " ")}\`,
+            title: config.appName,
             description: "testing the fastify swagger api",
             version: "0.1.0",
         },
@@ -28,7 +31,7 @@ app.register(oas, {
             url: "https://swagger.io",
             description: "Find more info here",
         },
-        host: "localhost:5000",
+        host: config.serverURI,
         schemes: ["http"],
         consumes: ["application/json"],
         produces: ["application/json"],

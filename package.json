@@ -1,7 +1,7 @@
 {
   "name": "epic-cli",
   "version": "1.0.0",
-  "description": "Tool for setting up Spring Boot Microservice Project",
+  "description": "cli for setting micro-architecture applications.",
   "main": "bin/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,18 +11,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Masrath-Shaik/epic-cli.git"
+    "url": "git+https://github.com/creative-coden/epic-cli.git"
   },
   "keywords": [
-    "spring",
-    "boot"
+    "fastify",
+    "react"
   ],
-  "author": "Masrat",
+  "author": "Jamaal Long",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Masrath-Shaik/epic-cli/issues"
+    "url": "https://github.com/creative-coden/epic-cli/issues"
   },
-  "homepage": "https://github.com/Masrath-Shaik/epic-cli#readme",
+  "homepage": "https://github.com/creative-coden/epic-cli#readme",
   "dependencies": {
     "chalk": "^4.1.0",
     "figlet": "^1.5.0",
