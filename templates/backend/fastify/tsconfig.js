@@ -13,6 +13,7 @@ module.exports = function(){
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,

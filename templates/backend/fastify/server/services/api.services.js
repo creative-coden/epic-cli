@@ -3,11 +3,12 @@ module.exports = function(){
   id: string,
   name: string
 }
+
 interface IParams {
   id: string,
 }
 
-let customers: Array<iCustomers> = [
+const customers: Array<iCustomers> = [
   { id: "1", name: "Judy Hopps" },
   { id: "2", name: "Nick Wilde" },
   { id: "3", name: "Cheif Bogo" },
@@ -21,11 +22,10 @@ function findElementByIndex(id: string) {
   });
 }
 
-export async function createCustomerService(customer: iCustomers[]): Promise<string | void> {
-
+export async function createCustomerService(customer: iCustomers): Promise<string | void> {
   try {
-    customers = customer;
-    return "Successfully created customer";
+    customers.push(customer);
+    return \`Successfully created \${customer.name}.\`;
   } catch (error) {
     console.error(error);
   }

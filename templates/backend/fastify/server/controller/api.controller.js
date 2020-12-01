@@ -1,6 +1,5 @@
 module.exports = function(){
   return `import { FastifyInstance } from "fastify";
-import { Type } from "@sinclair/typebox";
 import {
   createCustomerService,
   fetchCustomerService,
@@ -8,48 +7,41 @@ import {
   deleteCustomerService,
 } from "../services/customer.service";
 
-const createCustomerRequestSchema = Type.Array(
-  Type.Object({
-    id: Type.String({
-      example: "1",
-      description: "unique identifier for a customer",
-    }),
-    name: Type.String({ example: "Paul", description: "name of customer" }),
-  }),
-);
-
-const createCustomerResponseSchema = {
-  201: Type.String({ example: "Successfully create customer", description: "Success message" })
+const createCustomerRequestSchema = {
+  type: "object",
+  properties: {
+    id: { type: "string" },
+    name: { type: "string" }
+  },
+  required: ["id", "name"]
 };
 
-const customerResponseBodySchema = {
-  200: Type.Array(
-    Type.Object({
-      id: Type.String({
-        example: "1",
-        description: "unique identifier for a customer",
-      }),
-      name: Type.String({ example: "Paul", description: "name of customer" }),
-    }),
-  ),
+const successResponseSchema = {
+  response: {
+    "2xx": {
+      type: "string",
+    },
+    201: {
+      type: "string",
+    }
+  }
 };
 
 const getCustomersSchema = {
-  response: customerResponseBodySchema,
+  response: successResponseSchema,
 };
 
 const createCustomerSchema = {
   body: createCustomerRequestSchema,
-  response: createCustomerResponseSchema
+  response: successResponseSchema
 };
 
-const updateCustomerRequestSchema = Type.Object({
-  id: Type.String({ example: "1", description: "Unique identifier for customer" }),
-  name: Type.String({ example: "Paul", description: "name of customer" })
-});
-
-const successResponseSchema = {
-  200: Type.String({ description: "Success message" })
+const updateCustomerRequestSchema = {
+  type: "object",
+  properties: {
+    id: { type: "string" },
+    name: { type: "string" }
+  }
 };
 
 const updateCustomerSchema = {
@@ -57,9 +49,12 @@ const updateCustomerSchema = {
   response: successResponseSchema
 };
 
-const deleteCustomerParamsSchema = Type.Object({
-  id: Type.String()
-});
+const deleteCustomerParamsSchema = {
+  type: "object",
+  properties: {
+    id: { type: "string" },
+  }
+};
 
 const deleteCustomerSchema = {
   params: deleteCustomerParamsSchema,
@@ -81,7 +76,7 @@ export async function CustomerController(fastify: FastifyInstance): Promise<void
     url: "/customers",
     schema: createCustomerSchema,
     handler: async function createCustomerController(request, reply) {
-      return reply.code(201).send(await createCustomerService(<iCustomers[]>request.body));
+      return reply.code(201).send(await createCustomerService(<iCustomers>request.body));
     }
   });
 

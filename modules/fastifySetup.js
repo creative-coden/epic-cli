@@ -9,10 +9,11 @@ exports.directories = [
 ];
 
 exports.packageJsonProperties = {
-  runCommands: ['lint-staged', 'husky'],
+  runCommands: ['engines', 'lint-staged', 'husky'],
   scripts: {
     build: 'npm run lint && npx tsc --build',
-    coverage: 'nyc npm run test',
+    clean: 'rimraf dist',
+    coverage: 'npx nyc --reporter=lcov npm run test"',
     "inspect:all": "concurrently -c \"bgBlue.bold,bgMagenta.bold,yellow\" \"npm:inspect:lint\" \"npm:inspect:vulnerabilities\" \"npm:inspect:license\"",   
     "inspect:license": "license-checker --failOn GPLv2",     
     "inspect:sanity-testing": 'ts-mocha && nyc mocha "**/*.{ts} --grep \"sanity\"',
@@ -20,7 +21,11 @@ exports.packageJsonProperties = {
     lint: 'npx tsc --noEmit && eslint "**/*.{js,ts}" --quiet --fix',
     start: 'ts-node ./index.ts',
     "start:dev": 'ts-node-dev ./index.ts',
-    test: 'ts-mocha && nyc mocha "**/*.{ts}',
+    test: 'ts-mocha && npx nyc mocha "**/*.{ts}',
+  },
+  "engines": {
+    "node": "14.x.x",
+    "npm": "6.x.x"
   },
   ["lint-staged"]: {
     "*.{ts,tsx}": [
@@ -50,7 +55,7 @@ exports.projectDependencies = {
     'fastify-helmet',
     'fastify-multer',
     'fastify-healthcheck',
-    '@sinclair/typebox',
+    'fastify-formbody',
     'source-map-support',
     'fastify-oas',
     'dotenv',
@@ -59,11 +64,14 @@ exports.projectDependencies = {
   ],
   devDependencies: [
     'cross-env',
+    'lint-staged ',
+    'rimraf',
     'license-checker',
     'concurrently',
     '@types/multer',
     '@types/mocha',
     '@types/chai',
+    '@types/node',
     'typescript',
     'ts-node-dev',
     '@typescript-eslint/eslint-plugin',
