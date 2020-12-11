@@ -7,20 +7,21 @@ module.exports = (function fileSetup() {
     appSetup: null,
     appDirectories: [],
     projectProperties,
+    context: '',
     set: function set(args) {
       this.appSetup = Object.assign({}, args);
       switch (this.appSetup.setup) {
         case 'both':
           this.appDirectories = [].concat(
             this.projectProperties[this.appSetup.frontend].files,
-             this.projectProperties[this.appSetup.backend].files,
+            this.projectProperties[this.appSetup.backend].files,
           );
           return;
         case 'frontend':
           this.appDirectories = [].concat(this.projectProperties[this.appSetup.frontend].files);
           return;
         case 'backend':
-          this.appDirectories = [].concat( this.projectProperties[this.appSetup.backend].files);
+          this.appDirectories = [].concat(this.projectProperties[this.appSetup.backend].files);
           return;
         default:
           throw new Error('Error with app setup configuration');
@@ -31,6 +32,19 @@ module.exports = (function fileSetup() {
         return this.appSetup.serverDirectory;
       }
       return this.appSetup.clientDirectory;
+    },
+    appendToEnvFile: async function appendToEnvFile() {
+      for (let file of this.appDirectories) {
+        const { directory } = file;
+        if (!directory.includes('.env')) {
+          continue;
+        }
+        const layer = directory
+          .slice()
+          .split('/')
+          .find(item => item.includes('service') || item.includes('client'));
+        await fsPromises.appendFile(directory, `APP_NAME = ${this.appSetup.appName}_${layer.split('_')[1]}`);
+      }
     },
     prependPath: function prependPath() {
       let context = '';
@@ -83,6 +97,7 @@ module.exports = (function fileSetup() {
         _files.set(args);
         _files.prependPath();
         await _files.writeToFiles();
+        await _files.appendToEnvFile();
         const results = _files.retrieveResults();
         _files.setCompleted();
         return results;

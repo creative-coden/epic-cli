@@ -25,7 +25,7 @@ process.on("SIGINT", async function signalInt() {
 
 (async function start() {
   try {
-    const address = await app.listen(config.port as string, "0.0.0.0");
+    const address = await app.listen(config.port, "0.0.0.0");
     app.log.info(\`\${config.appName} is up and listening on \${address}\`);
   } catch (error) {
     app.log.error(\`Error starting server \${error}\`);

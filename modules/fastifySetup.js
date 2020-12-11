@@ -1,42 +1,40 @@
 exports.directories = [
   'server/config',
   'server/controller',
+  'server/controller/schemas',
+  'server/controller/types',
   'server/routes',
   'server/services',
   'server/__tests__/fixtures',
   'server/__tests__/integration',
   'server/__tests__/unit',
+  'server/__tests__/support'
 ];
 
 exports.packageJsonProperties = {
-  runCommands: ['engines', 'lint-staged', 'husky'],
+  runCommands: ['lint-staged', 'husky', 'types'],
   scripts: {
-    build: 'npm run lint && npx tsc --build',
+    build: 'npm run lint && npm run clean && npx tsc --build',
     clean: 'rimraf dist',
+    "compile-schemas": "json2ts -i server/**/*.json -o build",
     coverage: 'npx nyc --reporter=lcov npm run test"',
+    "dev": 'ts-node-dev ./index.ts',
     "inspect:all": "concurrently -c \"bgBlue.bold,bgMagenta.bold,yellow\" \"npm:inspect:lint\" \"npm:inspect:vulnerabilities\" \"npm:inspect:license\"",   
     "inspect:license": "license-checker --failOn GPLv2",     
     "inspect:sanity-testing": 'ts-mocha && nyc mocha "**/*.{ts} --grep \"sanity\"',
     "inspect:vulnerabilities": "npm audit",
     lint: 'npx tsc --noEmit && eslint "**/*.{js,ts}" --quiet --fix',
-    start: 'ts-node ./index.ts',
-    "start:dev": 'ts-node-dev ./index.ts',
+    start: 'node ./index.js',
     test: 'ts-mocha && npx nyc mocha "**/*.{ts}',
-  },
-  "engines": {
-    "node": "14.x.x",
-    "npm": "6.x.x"
   },
   ["lint-staged"]: {
     "*.{ts,tsx}": [
       "npm run inspect:sanity-testing",
-      "eslint --ext .ts,.tsx",
-      "prettier --write",
-      "git add"
+      "npx eslint --ext .ts,.tsx",
+      "npx prettier --write",
     ],
     "*.{json,md}": [
-      "prettier --write",
-      "git add"
+      "npx prettier --write",
     ]
   },
   husky: {
@@ -45,6 +43,7 @@ exports.packageJsonProperties = {
       'pre-push': 'npm run inspect:all',
     },
   },
+  "types": "index.d.ts",
 };
 
 exports.projectDependencies = {
@@ -58,6 +57,7 @@ exports.projectDependencies = {
     'fastify-formbody',
     'source-map-support',
     'fastify-oas',
+    '@wwa/fastify-favicon',
     'dotenv',
     'ts-node',
     'clinic',
@@ -76,11 +76,17 @@ exports.projectDependencies = {
     'ts-node-dev',
     '@typescript-eslint/eslint-plugin',
     '@typescript-eslint/parser',
-    '@tsconfig/node12',
+    'eslint-plugin-sonarjs',
+    'eslint',
+    'eslint-config-prettier',
+    'eslint-plugin-prettier',
+    '@tsconfig/node14',
+    'json-schema-to-typescript',
     'source-map-support',
     'husky',
-    'eslint',
     'prettier',
     'nyc',
+    'depcheck',
+    'npm-check'
   ],
 };
