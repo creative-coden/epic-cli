@@ -7,6 +7,7 @@ import healthCheck from "fastify-healthcheck";
 import oas from "fastify-oas";
 import formbody from "fastify-formbody";
 import env from "dotenv";
+import favicon from "@wwa/fastify-favicon";
 
 import { config } from "./config";
 import { CustomerRoutes, UploadRoutes } from "../routes";
@@ -18,6 +19,7 @@ app.register(healthCheck);
 app.register(compress);
 app.register(formbody);
 app.register(cors);
+app.register(favicon);
 app.register(multer.contentParser);
 app.register(oas, {
     routePrefix: "/documentation",

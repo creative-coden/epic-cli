@@ -1,20 +1,13 @@
 module.exports = function(){
-  return `interface iCustomers {
-  id: string,
-  name: string
-}
+  return `import { IRequestBody as Customer } from "../controller/types";
 
-interface IParams {
-  id: string,
-}
-
-const customers: Array<iCustomers> = [
+const customers: Array<Customer> = [
   { id: "1", name: "Judy Hopps" },
   { id: "2", name: "Nick Wilde" },
   { id: "3", name: "Cheif Bogo" },
   { id: "4", name: "Clawhauser" },
 ];
-  
+
 function findElementByIndex(id: string) {
   if (!id) return -1;
   return customers.findIndex(function findIndex(item) {
@@ -22,7 +15,7 @@ function findElementByIndex(id: string) {
   });
 }
 
-export async function createCustomerService(customer: iCustomers): Promise<string | void> {
+export async function createCustomerService(customer: Customer): Promise<string | void> {
   try {
     customers.push(customer);
     return \`Successfully created \${customer.name}.\`;
@@ -31,7 +24,7 @@ export async function createCustomerService(customer: iCustomers): Promise<strin
   }
 }
 
-export async function fetchCustomerService(): Promise<iCustomers[] | void> {
+export async function fetchCustomerService(): Promise<Customer[] | void> {
   try {
     return customers;
   } catch (error) {
@@ -39,19 +32,19 @@ export async function fetchCustomerService(): Promise<iCustomers[] | void> {
   }
 }
 
-export async function updateCustomerService(customer: iCustomers): Promise<string | void> {
+export async function updateCustomerService(customer: Customer): Promise<string | void> {
   try {
     const index = findElementByIndex(customer.id);
     customers[index] = customer;
-    return \`\${customer.name} was updated successfully.\`;
+    return \`\${customers[index].name} was updated successfully.\`;
   } catch (error) {
     console.error(error);
   }
 }
 
-export async function deleteCustomerService(customer: IParams): Promise<string | void> {
+export async function deleteCustomerService(id: string): Promise<string | void> {
   try {
-    const index = findElementByIndex(customer.id);
+    const index = findElementByIndex(id);
     const name = customers[index].name;
     customers.splice(index, 1);
     return \`\${name} was deleted successfully.\`;

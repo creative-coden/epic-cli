@@ -1,8 +1,9 @@
 module.exports = function(){
     return `{
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Node 12",
+  "display": "Node 14",
  
+  "extends": "@tsconfig/node14/tsconfig.json",  
   "compilerOptions": {
     "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
     "module": "commonjs",

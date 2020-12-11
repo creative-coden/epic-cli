@@ -6,106 +6,54 @@ import {
   updateCustomerService,
   deleteCustomerService,
 } from "../services/customer.service";
-
-const createCustomerRequestSchema = {
-  type: "object",
-  properties: {
-    id: { type: "string" },
-    name: { type: "string" }
-  },
-  required: ["id", "name"]
-};
-
-const successResponseSchema = {
-  response: {
-    "2xx": {
-      type: "string",
-    },
-    201: {
-      type: "string",
-    }
-  }
-};
-
-const getCustomersSchema = {
-  response: successResponseSchema,
-};
-
-const createCustomerSchema = {
-  body: createCustomerRequestSchema,
-  response: successResponseSchema
-};
-
-const updateCustomerRequestSchema = {
-  type: "object",
-  properties: {
-    id: { type: "string" },
-    name: { type: "string" }
-  }
-};
-
-const updateCustomerSchema = {
-  body: updateCustomerRequestSchema,
-  response: successResponseSchema
-};
-
-const deleteCustomerParamsSchema = {
-  type: "object",
-  properties: {
-    id: { type: "string" },
-  }
-};
-
-const deleteCustomerSchema = {
-  params: deleteCustomerParamsSchema,
-  response: successResponseSchema
-};
-
-interface iCustomers {
-  name: string,
-  id: string,
-}
-
-interface iParams {
-  id: string,
-}
+import CustomerResponseSchema from "./schemas/response.json";
+import SuccessStatusSchema from "./schemas/success.json";
+import ParamsSchema from "./schemas/params.json";
+import { IRequestBody, IParams } from "./types";
 
 export async function CustomerController(fastify: FastifyInstance): Promise<void> {
-  fastify.route({
+  fastify.route<{ Body: IRequestBody }>({
     method: "POST",
     url: "/customers",
-    schema: createCustomerSchema,
+    schema: {
+      response: SuccessStatusSchema,
+    },
     handler: async function createCustomerController(request, reply) {
-      return reply.code(201).send(await createCustomerService(<iCustomers>request.body));
-    }
+      return reply.code(201).send(await createCustomerService(request.body));
+    },
   });
 
   fastify.route({
     method: "GET",
     url: "/customers",
-    schema: getCustomersSchema,
+    schema: {
+      response: CustomerResponseSchema,
+    },
     handler: async function fetchCustomerController(request, reply) {
       return reply.send(await fetchCustomerService());
-    }
+    },
   });
 
-
-  fastify.route({
+  fastify.route<{ Body: IRequestBody }>({
     method: "PUT",
     url: "/customers/:id",
-    schema: updateCustomerSchema,
+    schema: {
+      params: ParamsSchema,
+    },
     handler: async function updateCustomerController(request, reply) {
-      return reply.send(await updateCustomerService(<iCustomers>request.body));
-    }
+      return reply.send(await updateCustomerService(request.body));
+    },
   });
 
-  fastify.route({
+  fastify.route<{ Params: IParams }>({
     method: "DELETE",
     url: "/customers/:id",
-    schema: deleteCustomerSchema,
+    schema: {
+      response: SuccessStatusSchema,
+    },
     handler: async function deleteCustomerController(request, reply) {
-      return reply.send(await deleteCustomerService(<iParams>request.params));
-    }
+      return reply.send(await deleteCustomerService(request.params.id));
+    },
   });
 }`
 }
