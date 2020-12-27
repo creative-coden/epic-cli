@@ -1,8 +1,6 @@
 exports.directories = [
   'server/config',
   'server/controller',
-  'server/controller/',
-  'server/controller/',
   'server/routes',
   'server/schemas',
   'server/types',
@@ -14,7 +12,7 @@ exports.directories = [
 ];
 
 exports.packageJsonProperties = {
-  runCommands: ['lint-staged', 'husky'],
+  runCommands: ['lint-staged', 'husky', 'types'],
   scripts: {
     build: 'npm run clean && npx tsc --build',
     clean: 'rimraf dist',
@@ -44,6 +42,7 @@ exports.packageJsonProperties = {
       'pre-push': 'npm run inspect:all',
     },
   },
+  "types": "index.d.ts",
 };
 
 exports.projectDependencies = {

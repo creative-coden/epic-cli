@@ -12,5 +12,4 @@ module.exports = function(){
   console.log('status code: ', response.statusCode);
   console.log('body: ', response.body);
 })();
-    `
-}
+`}

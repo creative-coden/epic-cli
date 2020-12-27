@@ -25,6 +25,6 @@ module.exports = function(){
   "declaration": true
 },  
 "include": ["index.ts","server/**/*"],
-"exclude": ["node_modules"]    
+"exclude": ["node_modules"]
 }`
 }

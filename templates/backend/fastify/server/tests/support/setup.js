@@ -3,7 +3,7 @@ module.exports = function(){
 
 function build(opts = {}): FastifyInstance {
   const app = fastify(opts);
-  
+ 
   app.get('/', async function helloWorld() {
     return { hello: 'world' };
   });
