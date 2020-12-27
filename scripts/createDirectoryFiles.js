@@ -74,7 +74,10 @@ module.exports = (function fileSetup() {
     writeToFiles: async function writeToFiles() {
       try {
         for (let path of this.appDirectories) {
-          await fsPromises.writeFile(path.directory, path.file);
+          if (path.directory.includes('deploy.sh')) {
+            await fsPromises.writeFile(path.directory, path.file(), { mode: 0o777 });
+          }
+          await fsPromises.writeFile(path.directory, path.file());
         }
       } catch (error) {
         console.error(error);

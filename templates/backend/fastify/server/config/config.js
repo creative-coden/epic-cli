@@ -1,5 +1,5 @@
 module.exports = function () {
-  return `import dotenv from "dotenv";
+  return `import dotenv from 'dotenv';
 
 interface Config {
   host: string;
@@ -12,12 +12,13 @@ interface Config {
 dotenv.config();
 
 const config: Config = {
-  host: "0.0.0.0",
-  port: (process.env.PORT || "5000"),
+  host: '0.0.0.0',
+  port: process.env.PORT || '5000',
   serverURI: process.env.SERVER_URI,
   appName: process.env.APP_NAME,
-  environment: (process.env.NODE_ENV || "production")
+  environment: process.env.NODE_ENV || 'production',
 };
 
-export { config };`;
+export { config };
+`;
 };

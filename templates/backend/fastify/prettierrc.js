@@ -8,7 +8,7 @@ module.exports = function(){
   "printWidth": 125,
   "requirePragma": false,
   "semi": true,
-  "singleQuote": false,
+  "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "all",
   "useTabs": false,

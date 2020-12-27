@@ -1,11 +1,11 @@
 module.exports = function(){
-  return `import { IRequestBody as Customer } from "../controller/types";
+  return `import { IRequestBody as Customer } from '../types';
 
-const customers: Array<Customer> = [
-  { id: "1", name: "Judy Hopps" },
-  { id: "2", name: "Nick Wilde" },
-  { id: "3", name: "Cheif Bogo" },
-  { id: "4", name: "Clawhauser" },
+const customers: Customer[] = [
+  { id: '1', name: 'Judy Hopps' },
+  { id: '2', name: 'Nick Wilde' },
+  { id: '3', name: 'Cheif Bogo' },
+  { id: '4', name: 'Clawhauser' },
 ];
 
 function findElementByIndex(id: string) {
@@ -51,6 +51,7 @@ export async function deleteCustomerService(id: string): Promise<string | void> 
   } catch (error) {
     console.error(error);
   }
-}`
+}
+`
 }
 

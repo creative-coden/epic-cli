@@ -1,4 +1,6 @@
 const { spawn } = require('child_process');
+const { promise: fsPromise } = require('fs');
+
 const projectProperties = require('../modules');
 
 module.exports = (function packageDependencies() {
@@ -15,7 +17,6 @@ module.exports = (function packageDependencies() {
             {
               folder: this.appSetup.clientDirectory,
               install: this.projectProperties[this.appSetup.frontend].projectDependencies,
-              
             },
             {
               folder: this.appSetup.serverDirectory,
@@ -47,7 +48,7 @@ module.exports = (function packageDependencies() {
             stdio: ['ignore', 'inherit', 'inherit'],
             cwd: npm.folder,
           };
-          spawn(`npm install ${npm.install.dependencies.join(' ')} && npm i -D ${npm.install.devDependencies.join(' ')}`, {
+          spawn(`npm i -S ${npm.install.dependencies.join(' ')} && npm i -D ${npm.install.devDependencies.join(' ')}`, {
             ...options,
           });
         }
@@ -70,7 +71,10 @@ module.exports = (function packageDependencies() {
       if (_package.isComplete()) return;
       try {
         _package.set(args);
-        _package.installPackages();
+        const timer = setTimeout(function () {
+          _package.installPackages();
+          clearTimeout(timer);
+        }, 800);
         _package.setComplete();
         const results = _package.retrieveResults();
         return results;

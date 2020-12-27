@@ -5,14 +5,14 @@ const frontend = {
   type: 'list',
   name: 'frontend',
   message: 'Select the front end.',
-  choices: options.frontend,
+  choices: ['React'],
 };
 
 const backend = {
   type: 'list',
   name: 'backend',
   message: 'Select the back end.',
-  choices: options.backend,
+  choices: ['Fastify'],
 };
 
 const gitHubFrontEndUrl = {
@@ -50,16 +50,34 @@ exports.appSetupQuestions = [
   },
 ];
 
-exports.mergeResponses = function mergeResponses(userInput) {
+exports.mergeQuestions = function mergeQuestions(userInput) {
   let merge = [];
   if (userInput.setup.toLowerCase() === 'frontend') {
-    merge = [{ ...frontend }, { ...gitHubFrontEndUrl }];
+    merge = [{ ...gitHubFrontEndUrl }];
   }
   if (userInput.setup.toLowerCase() === 'backend') {
-    merge = [{ ...backend }, { ...gitHubBackEndUrl }];
+    merge = [{ ...gitHubBackEndUrl }];
   }
   if (userInput.setup.toLowerCase() === 'both') {
-    merge = [{ ...frontend }, { ...gitHubFrontEndUrl }, { ...backend }, { ...gitHubBackEndUrl }];
+    merge = [{ ...gitHubFrontEndUrl }, { ...gitHubBackEndUrl }];
   }
   return merge;
+};
+
+exports.mergeAnswers = function mergeAnswers(input) {
+  let merge = [];
+
+  switch (input.setup.toLowerCase()) {
+    case 'frontend':
+      merge = { ...input, frontend: 'react' };
+      return merge;
+    case 'backend':
+      merge = { ...input, backend: 'fastify' };
+      return merge;
+    case 'both':
+      merge = { ...input, frontend: 'react', backend: 'fastify' };
+      return merge;
+    default:
+      input;
+  }
 };
