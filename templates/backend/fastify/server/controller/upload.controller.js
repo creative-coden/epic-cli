@@ -1,35 +1,35 @@
 module.exports = function(){
-    return `import { FastifyInstance } from "fastify";
-import multer from "fastify-multer";
-import { uploadService } from "../services/upload.service";
+    return `import { FastifyInstance } from 'fastify';
+import multer from 'fastify-multer';
+import { uploadService } from '../services/upload.service';
 
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: 'uploads/' });
 
 const uploadSchema = {
-  summary: "upload file",
+  summary: 'upload file',
   body: {
-    type: "object",
+    type: 'object',
     properties: {
-      file: { type: "object" }
+      file: { type: 'object' },
     },
-    required: ["file"]
-  }
+    required: ['file'],
+  },
 };
 
 interface IFile {
-  file: { [key: string]: string }
+  file: { [key: string]: string };
 }
 
 export async function UploadController(fastify: FastifyInstance): Promise<void> {
-
-  fastify.route({
-    method: "POST",
-    url: "/upload",
+  fastify.route<{ Body: IFile }>({
+    method: 'POST',
+    url: '/upload',
     schema: uploadSchema,
-    preHandler: upload.single("excel"),
+    preHandler: upload.single('excel'),
     handler: async function upload(request, reply) {
-      reply.send(await uploadService((request.body as IFile)));
-    }
+      reply.send(await uploadService(request.body));
+    },
   });
-}`
+}
+`
 }

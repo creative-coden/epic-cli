@@ -6,9 +6,10 @@ module.exports = function(){
 export function uploadService(file: IFile): string | void {
   try {
     console.log(file);
-    return "Uploaded successfully";
+    return 'Uploaded successfully';
   } catch (error) {
     console.error(error);
   }
-}`
+}
+`
 }

@@ -1,20 +1,20 @@
 module.exports = function(){
-  return `import { FastifyInstance } from "fastify";
+  return `import { FastifyInstance } from 'fastify';
 import {
   createCustomerService,
   fetchCustomerService,
   updateCustomerService,
   deleteCustomerService,
-} from "../services/customer.service";
-import CustomerResponseSchema from "./schemas/response.json";
-import SuccessStatusSchema from "./schemas/success.json";
-import ParamsSchema from "./schemas/params.json";
-import { IRequestBody, IParams } from "./types";
+} from '../services/customer.service';
+import CustomerResponseSchema from '../schemas/response.json';
+import SuccessStatusSchema from '../schemas/success.json';
+import ParamsSchema from '../schemas/params.json';
+import { IRequestBody, IParams } from '../types';
 
 export async function CustomerController(fastify: FastifyInstance): Promise<void> {
   fastify.route<{ Body: IRequestBody }>({
-    method: "POST",
-    url: "/customers",
+    method: 'POST',
+    url: '/customers',
     schema: {
       response: SuccessStatusSchema,
     },
@@ -24,8 +24,8 @@ export async function CustomerController(fastify: FastifyInstance): Promise<void
   });
 
   fastify.route({
-    method: "GET",
-    url: "/customers",
+    method: 'GET',
+    url: '/customers',
     schema: {
       response: CustomerResponseSchema,
     },
@@ -35,8 +35,8 @@ export async function CustomerController(fastify: FastifyInstance): Promise<void
   });
 
   fastify.route<{ Body: IRequestBody }>({
-    method: "PUT",
-    url: "/customers/:id",
+    method: 'PUT',
+    url: '/customers/:id',
     schema: {
       params: ParamsSchema,
     },
@@ -46,8 +46,8 @@ export async function CustomerController(fastify: FastifyInstance): Promise<void
   });
 
   fastify.route<{ Params: IParams }>({
-    method: "DELETE",
-    url: "/customers/:id",
+    method: 'DELETE',
+    url: '/customers/:id',
     schema: {
       response: SuccessStatusSchema,
     },
@@ -55,6 +55,7 @@ export async function CustomerController(fastify: FastifyInstance): Promise<void
       return reply.send(await deleteCustomerService(request.params.id));
     },
   });
-}`
+}
+`
 }
 

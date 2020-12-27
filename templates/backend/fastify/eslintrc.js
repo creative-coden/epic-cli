@@ -2,8 +2,8 @@ module.exports = function(){
     return `{
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "sonarjs", "prettier"],
-  "extends": ["plugin:@typescript-eslint/recommended"],
+  "plugins": ["security-node", "security", "@typescript-eslint", "sonarjs", "prettier"],
+  "extends": ["plugin:security-node/recommended", "plugin:security/recommended", "plugin:@typescript-eslint/recommended"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
