@@ -25,6 +25,7 @@ const createDeployScript = require('../templates/backend/fastify/deploy');
 const createDockerCompose = require('../templates/backend/fastify/dockerCompose');
 const createPrettierIgnore = require('../templates/backend/fastify/prettierIgnore');
 const createTravisFile = require('../templates/backend/fastify/travis');
+const createDockerIgnoreFile = require('../templates/backend/fastify/dockerIgnore');
 
 const fastifyFiles = [
   { directory: 'server/config/app.ts', file: createAppConfig },
@@ -56,6 +57,7 @@ const fastifyFiles = [
   { directory: 'docker-compose.yml', file: createDockerCompose },
   { directory: '.prettierignore', file: createPrettierIgnore },
   { directory: '.travis.yml', file: createTravisFile },
+  { directory: '.dockerignore', file: createDockerIgnoreFile },
 ];
 
 exports.fastifyFiles = fastifyFiles;

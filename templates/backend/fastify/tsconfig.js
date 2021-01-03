@@ -1,6 +1,5 @@
 module.exports = function(){
-    return `{
-"$schema": "https://json.schemastore.org/tsconfig",
+    return `{"$schema": "https://json.schemastore.org/tsconfig",
 "display": "Node 14",
 
 "extends": "@tsconfig/node14/tsconfig.json",  
@@ -14,11 +13,13 @@ module.exports = function(){
   "strictNullChecks": true,
   "strictFunctionTypes": true,
   "strictBindCallApply": true,
+  "strictPropertyInitialization": true,
   "resolveJsonModule": true,
   "esModuleInterop": true,
   "skipLibCheck": true,
   "forceConsistentCasingInFileNames": true,
   "noImplicitAny": true,
+  "noImplicitThis": true,
   "experimentalDecorators": true,
   "emitDecoratorMetadata": true,
   "sourceMap": true,

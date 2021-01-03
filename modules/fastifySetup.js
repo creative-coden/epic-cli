@@ -12,7 +12,7 @@ exports.directories = [
 ];
 
 exports.packageJsonProperties = {
-  runCommands: ['lint-staged', 'husky', 'types'],
+  runCommands: ['lint-staged', 'husky'],
   scripts: {
     build: 'npm run clean && npx tsc --build',
     clean: 'rimraf dist',
@@ -42,7 +42,6 @@ exports.packageJsonProperties = {
       'pre-push': 'npm run inspect:all',
     },
   },
-  "types": "index.d.ts",
 };
 
 exports.projectDependencies = {
@@ -90,6 +89,6 @@ exports.projectDependencies = {
     'prettier',
     'nyc',
     'depcheck',
-    'npm-check-updates'
+    'npm-check'
   ],
 };

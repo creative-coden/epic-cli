@@ -1,5 +1,4 @@
 const { spawn } = require('child_process');
-const { promise: fsPromise } = require('fs');
 
 const projectProperties = require('../modules');
 
