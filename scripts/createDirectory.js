@@ -37,7 +37,9 @@ module.exports = (function directorySetup() {
     appendPath: function appendPath() {
       const array =
         this.appSetup.setup === 'both'
-          ? [].concat(this.projectProperties[this.appSetup.frontEnd].directories, this.projectProperties[this.appSetup.backend].directories)
+          ? [].concat(this.projectProperties[this.appSetup.frontend].directories, this.projectProperties[this.appSetup.backend].directories)
+          : this.appSetup.setup === 'frontend'
+          ? this.projectProperties[this.appSetup.frontend].directories
           : this.projectProperties[this.appSetup.backend].directories;
       return array.reduce(
         function (acc, filePath) {

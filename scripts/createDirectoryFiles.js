@@ -1,3 +1,4 @@
+const { spawn } = require('child_process');
 const { promises: fsPromises } = require('fs');
 const projectProperties = require('../modules');
 
@@ -32,6 +33,22 @@ module.exports = (function fileSetup() {
         return this.appSetup.serverDirectory;
       }
       return this.appSetup.clientDirectory;
+    },
+    copyFoldersOver: async function copyFoldersOver() {
+      if (this.appSetup.setup === 'frontend') {
+        const source = this.projectProperties[this.appSetup.frontend].folderToCopy;
+        const destination = `${this.appSetup.clientDirectory}/shared`;
+        spawn(`cp -R ${source} ${destination}`, {
+          shell: true,
+          stdio: ['ignore', 'ignore', 'inherit'],
+        });
+      }
+    },
+    includeAppName: function includeAppName(path) {
+      if (path.directory.toLowerCase().includes('helmet') || path.directory.toLowerCase().includes('manifest')) {
+        return path.file(this.appSetup.appName);
+      }
+      return path.file();
     },
     appendToEnvFile: async function appendToEnvFile() {
       for (let file of this.appDirectories) {
@@ -77,7 +94,7 @@ module.exports = (function fileSetup() {
           if (path.directory.includes('deploy.sh')) {
             await fsPromises.writeFile(path.directory, path.file(), { mode: 0o777 });
           }
-          await fsPromises.writeFile(path.directory, path.file());
+          await fsPromises.writeFile(path.directory, this.includeAppName(path));
         }
       } catch (error) {
         console.error(error);
@@ -101,6 +118,7 @@ module.exports = (function fileSetup() {
         _files.prependPath();
         await _files.writeToFiles();
         await _files.appendToEnvFile();
+        await _files.copyFoldersOver();
         const results = _files.retrieveResults();
         _files.setCompleted();
         return results;

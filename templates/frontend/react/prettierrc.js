@@ -3,6 +3,8 @@ module.exports = function(){
   "arrowParens": "avoid",
   "bracketSpacing": true,
   "endOfLine": "lf",
+  "htmlWhitespaceSensitivity": "css",
+  "jsxBracketSameLine": false,
   "printWidth": 125,
   "requirePragma": false,
   "semi": true,
@@ -18,6 +20,7 @@ module.exports = function(){
       }
     }
   ]
-}`
+}
+`
 }
 
