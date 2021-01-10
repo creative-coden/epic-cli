@@ -21,13 +21,14 @@ const createEditorConfig = require('../templates/backend/fastify/editorconfig');
 const createConfig = require('../templates/backend/fastify/server/config/config');
 const createIntegrationFile = require('../templates/backend/fastify/server/tests/integration/integration.js');
 const createSupportSetup = require('../templates/backend/fastify/server/tests/support/setup.js');
-const createDeployScript = require('../templates/backend/fastify/deploy');
 const createDockerCompose = require('../templates/backend/fastify/dockerCompose');
 const createPrettierIgnore = require('../templates/backend/fastify/prettierIgnore');
-const createTravisFile = require('../templates/backend/fastify/travis');
+const createCircleCIFile= require('../templates/backend/fastify/circleci');
 const createDockerIgnoreFile = require('../templates/backend/fastify/dockerIgnore');
+const createDockerFile = require('../templates/backend/fastify/docker');
 
 const fastifyFiles = [
+  { directory: '.circleci/config.yml', file: createCircleCIFile},
   { directory: 'server/config/app.ts', file: createAppConfig },
   { directory: 'server/config/config.ts', file: createConfig },
   { directory: 'server/controller/customer.controller.ts', file: createController },
@@ -53,11 +54,10 @@ const fastifyFiles = [
   { directory: '.env', file: createEnv },
   { directory: '.editorconfig', file: createEditorConfig },
   { directory: '.nycrc.json', file: createNycConfig },
-  { directory: 'deploy.sh', file: createDeployScript },
   { directory: 'docker-compose.yml', file: createDockerCompose },
   { directory: '.prettierignore', file: createPrettierIgnore },
-  { directory: '.travis.yml', file: createTravisFile },
   { directory: '.dockerignore', file: createDockerIgnoreFile },
+  { directory: 'DockerFile', file: createDockerFile },
 ];
 
 exports.fastifyFiles = fastifyFiles;

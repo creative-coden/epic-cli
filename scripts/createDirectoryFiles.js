@@ -45,22 +45,34 @@ module.exports = (function fileSetup() {
       }
     },
     includeAppName: function includeAppName(path) {
-      if (path.directory.toLowerCase().includes('helmet') || path.directory.toLowerCase().includes('manifest')) {
+      if (
+        path.directory.toLowerCase().includes('helmet') ||
+        path.directory.toLowerCase().includes('manifest') ||
+        path.directory.toLowerCase().includes('dockerfile')
+      ) {
         return path.file(this.appSetup.appName);
       }
       return path.file();
     },
-    appendToEnvFile: async function appendToEnvFile() {
-      for (let file of this.appDirectories) {
-        const { directory } = file;
-        if (!directory.includes('.env')) {
-          continue;
+    appendAppNameToEnvFile: async function appendAppNameToEnvFile(directory, appName, layer) {
+      try {
+        await fsPromises.appendFile(directory, `APP_NAME=${appName}_${layer.split('_')[1]}`);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    modifyContentInFile: async function modifyContentInFile(nameOfFile, func) {
+      try {
+        for (let file of this.appDirectories) {
+          const { directory } = file;
+          if (!directory.includes(nameOfFile)) {
+            continue;
+          }
+          const layer = directory.split('/').find(item => item.includes('service') || item.includes('client'));
+          await func(directory, this.appSetup.appName, layer);
         }
-        const layer = directory
-          .slice()
-          .split('/')
-          .find(item => item.includes('service') || item.includes('client'));
-        await fsPromises.appendFile(directory, `APP_NAME = ${this.appSetup.appName}_${layer.split('_')[1]}`);
+      } catch (error) {
+        console.error(error);
       }
     },
     prependPath: function prependPath() {
@@ -91,9 +103,6 @@ module.exports = (function fileSetup() {
     writeToFiles: async function writeToFiles() {
       try {
         for (let path of this.appDirectories) {
-          if (path.directory.includes('deploy.sh')) {
-            await fsPromises.writeFile(path.directory, path.file(), { mode: 0o777 });
-          }
           await fsPromises.writeFile(path.directory, this.includeAppName(path));
         }
       } catch (error) {
@@ -117,7 +126,7 @@ module.exports = (function fileSetup() {
         _files.set(args);
         _files.prependPath();
         await _files.writeToFiles();
-        await _files.appendToEnvFile();
+        await _files.modifyContentInFile('.env', _files.appendAppNameToEnvFile);
         await _files.copyFoldersOver();
         const results = _files.retrieveResults();
         _files.setCompleted();

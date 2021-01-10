@@ -4,16 +4,26 @@ module.exports = function(){
 
 "extends": "@tsconfig/node14/tsconfig.json",  
 "compilerOptions": {
+  "baseUrl": "./",
   "lib": ["es2019", "es2020.promise", "es2020.bigint", "es2020.string"],
-  "module": "commonjs",
+  "module": "ES2020",
+  "moduleResolution": "node",
   "target": "es2020",
   "types":["node", "webgl2"],
   "outDir": "dist",
   "strict": true,
+  "noUnusedLocals": true,
+  "noUnusedParameters": true,
   "strictNullChecks": true,
+  "noImplicitReturns": true,
+  "noUncheckedIndexedAccess": true,
+  "alwaysStrict": true,
   "strictFunctionTypes": true,
   "strictBindCallApply": true,
   "strictPropertyInitialization": true,
+  "allowUnreachableCode": false,
+  "noFallthroughCasesInSwitch": true,
+  "allowSyntheticDefaultImports": true,
   "resolveJsonModule": true,
   "esModuleInterop": true,
   "skipLibCheck": true,
@@ -23,7 +33,8 @@ module.exports = function(){
   "experimentalDecorators": true,
   "emitDecoratorMetadata": true,
   "sourceMap": true,
-  "declaration": true
+  "declaration": true,
+  "declarationMap": true
 },  
 "include": ["index.ts","server/**/*"],
 "exclude": ["node_modules"]

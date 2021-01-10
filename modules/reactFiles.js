@@ -6,7 +6,6 @@ const createStub = require('../templates/frontend/react/cypress/fixtures/stub');
 const createPlugin = require('../templates/frontend/react/cypress/plugins/plugins');
 const createSupport = require('../templates/frontend/react/cypress/support/support');
 
-const createBrowserSyncFile = require('../templates/frontend/react/shared/tooling/browserConfig');
 const createWebapckDev = require('../templates/frontend/react/shared/tooling/webpack.dev');
 const createWebapckProd = require('../templates/frontend/react/shared/tooling/webpack.prod');
 const createWebapckCommon = require('../templates/frontend/react/shared/tooling/webpack.common');
@@ -24,10 +23,11 @@ const createGitignore = require('../templates/frontend/react/gitignore.js');
 const createPrettier = require('../templates/frontend/react/prettierrc');
 const createEnv = require('../templates/frontend/react/env');
 const createEditorConfig = require('../templates/frontend/react/editorconfig');
-const createDeployScript = require('../templates/frontend/react/deploy');
 const createDockerCompose = require('../templates/frontend/react/dockerCompose');
+const createDockerIgonore = require('../templates/frontend/react/dockerIgnore');
+const createDockerFile = require('../templates/frontend/react/docker');
 const createPrettierIgnore = require('../templates/frontend/react/prettierIgnore');
-const createTravisFile = require('../templates/frontend/react/travis');
+const createCircleCIFile = require('../templates/frontend/react/circleci');
 const createStyleLintFile = require('../templates/frontend/react/stylelint');
 const createAppFile = require('../templates/frontend/react/src/app');
 const createHome = require('../templates/frontend/react/src/components/home/home');
@@ -35,6 +35,7 @@ const createHomeEntryFile = require('../templates/frontend/react/src/components/
 const createHomeCSS = require('../templates/frontend/react/src/components/home/homecss');
 
 const reactFiles = [
+  { directory: '.circleci/config.yml', file: createCircleCIFile },
   { directory: 'shared/config/cypress.json', file: createCypressJson },
   { directory: 'shared/config/cypress-unit.json', file: createCypressUnitJson },
   { directory: 'cypress/integration/definitions/definitions.js', file: createDefinitionFile },
@@ -42,7 +43,6 @@ const reactFiles = [
   { directory: 'cypress/support/index.js', file: createSupport },
   { directory: 'cypress/plugins/index.js', file: createPlugin },
   { directory: 'cypress/fixtures/stub.json', file: createStub },
-  { directory: 'shared/tooling/browserSync.js', file: createBrowserSyncFile },
   { directory: 'shared/tooling/webpack.common.js', file: createWebapckCommon },
   { directory: 'shared/tooling/webpack.dev.js', file: createWebapckDev },
   { directory: 'shared/tooling/webpack.prod.js', file: createWebapckProd },
@@ -64,11 +64,12 @@ const reactFiles = [
   { directory: '.prettierrc.json', file: createPrettier },
   { directory: '.env', file: createEnv },
   { directory: '.editorconfig', file: createEditorConfig },
-  { directory: 'deploy.sh', file: createDeployScript },
   { directory: 'docker-compose.yml', file: createDockerCompose },
   { directory: '.prettierignore', file: createPrettierIgnore },
-  { directory: '.travis.yml', file: createTravisFile },
   { directory: '.stylelintrc.json', file: createStyleLintFile },
+  { directory: '.dockerignore', file: createDockerIgonore },
+  { directory: 'Dockerfile', file: createDockerFile },
 ];
 
 exports.reactFiles = reactFiles;
+

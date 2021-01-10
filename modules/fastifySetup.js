@@ -1,4 +1,6 @@
 exports.directories = [
+  '.nyc_output',
+  '.circleci',
   'server/config',
   'server/controller',
   'server/routes',
@@ -12,28 +14,28 @@ exports.directories = [
 ];
 
 exports.packageJsonProperties = {
-  runCommands: ['lint-staged', 'husky'],
+  runCommands: ['husky', 'lint-staged'],
   scripts: {
-    build: 'npm run clean && npx tsc --build',
+    build: 'npm run clean && $(npm bin)/tsc --build',
     clean: 'rimraf dist',
-    "compile-schemas": "npx json2ts -i server/**/schemas/*.json -o ./types",
-    coverage: 'npx nyc --reporter=lcov npm run test"',
-    "dev": 'npx ts-node-dev ./index.ts',
+    "compile-schemas": "$(npm bin)/json2ts -i server/**/schemas/*.json -o ./types",
+    coverage: '$(npm bin)/nyc --reporter=lcov npm run test"',
+    "dev": '$(npm bin)/ts-node-dev ./index.ts',
     "inspect:all": "concurrently -c \"bgBlue.bold,bgMagenta.bold,yellow\" \"npm:inspect:lint\" \"npm:inspect:updates\" \"npm:inspect:license\"",   
-    "inspect:license": "npx license-checker --production --json --out artifacts/license.json --failOn GPLv2",     
-    "inspect:sanity-testing": 'npx ts-mocha && nyc mocha "**/*.{ts} --grep \"sanity\"',
-    "inspect:updates": "npx npm-check-updates",
-    lint: 'npx eslint --ext .ts,.js --format table',
+    "inspect:license": "$(npm bin)/license-checker --production --json --out artifacts/license.json --failOn GPLv2",     
+    "inspect:sanity-testing": '$(npm bin)/ts-mocha && $(npm bin)/nyc mocha "**/*.{ts} --grep \"sanity\"',
+    "inspect:updates": "$(npm bin)/npm-check",
+    lint: '$(npm bin)/eslint --ext .ts,.js --format table',
     start: 'node ./index.js',
-    test: 'npx ts-mocha && npx nyc mocha "**/*.{ts}',
+    test: '$(npm bin)/ts-mocha && $(npm bin)/nyc mocha "**/*.{ts}"',
   },
   ["lint-staged"]: {
     "*.{ts,js}": [
       "npm run lint",
-      "npx prettier --write --ignore-unknown",
+      "$(npm bin)/prettier --write",
     ],
     "*.{json,md,yaml,yml}": [
-      "npx prettier --write --ignore-unknown",
+      "$(npm bin)/prettier --write",
     ]
   },
   husky: {
@@ -74,6 +76,7 @@ exports.projectDependencies = {
     '@types/webgl2',
     'typescript',
     'ts-node-dev',
+    '@istanbuljs/nyc-config-typescript',
     '@typescript-eslint/eslint-plugin',
     '@typescript-eslint/parser',
     'eslint-plugin-sonarjs',

@@ -101,6 +101,10 @@ module.exports = {
           to: './assets/images',
         },
         {
+          from: '../shared/assets/icons',
+          to: './assets/icons',
+        },
+        {
           from: '../src/manifest.webmanifest',
           to: './',
         },

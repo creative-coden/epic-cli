@@ -1,5 +1,6 @@
-module.exports = function(){
-    return ` "report-dir": "./artifacts/coverage",
+module.exports = function () {
+  return ` {
+  "report-dir": "./artifacts/coverage",
   "include": "./src/**/*.spec.tsx",
   "exclude": ["./cypress", "./shared", "./dist"],
   "extends": "@istanbuljs/nyc-config-typescript",
@@ -10,5 +11,5 @@ module.exports = function(){
   "lines": 100,
   "statements": 100
 }
-`
-}
+`;
+};

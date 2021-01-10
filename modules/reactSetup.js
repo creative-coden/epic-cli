@@ -1,4 +1,6 @@
 exports.directories = [
+  '.nyc_output',
+  '.circleci',
   'shared/tooling',
   'shared/config',
   'cypress/fixtures',
@@ -13,12 +15,12 @@ exports.directories = [
 ];
 
 exports.packageJsonProperties = {
-  runCommands: ['browserslist', 'cypress-cucumber-preprocessor', 'lint-staged', 'husky'],
+  runCommands: ['browserslist', 'cypress-cucumber-preprocessor', 'husky', 'lint-staged'],
   scripts: {
     "build": "webpack --progress --config ./shared/tooling/webpack.prod.js",
     "compile-schemas": "$(npm bin)/json2ts -i server/**/schemas/*.json -o ./types",
     "coverage": "$(npm bin)/nyc report --reporter=lcov --reporter=text",
-    "dev": "webpack serve --progress --config ./shared/tooling/webpack.dev.js",
+    "start": "webpack serve --progress --config ./shared/tooling/webpack.dev.js",
     "inspect:all": "concurrently -c \"bgBlue.bold,bgMagenta.bold,yellow\" \"npm:inspect:lint\" \"npm:inspect:updates\" \"npm:inspect:license\"",
     "inspect:license": "$(npm bin)/license-checker --production --json --out ./artifacts/license.json --failOn GPLv2",
     "inspect:lint": "$(npm bin)/eslint --ext .ts,.js --format table",
