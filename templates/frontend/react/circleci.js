@@ -29,20 +29,14 @@ aws_job_template: &aws_job_template
   skip-when-tags-exist: false
   attach-workspace: true
   tag: 'latest'
-  requires:
-    - test
-  filters:
-      branches:
-          only: staging
+
 
 service_template: &service_template
   family: \${AWS_RESOURCE_NAME_PREFIX}-task
   cluster-name: \${AWS_RESOURCE_NAME_PREFIX}-cluster
   service-name: \${AWS_RESOURCE_NAME_PREFIX}-service
   container-image-name-updates: container=\${AWS_RESOURCE_NAME_PREFIX},tag=latest
-  filters:
-    branches:
-        only: staging
+
 
 orbs:
   node: circleci/node@4.1.0
@@ -50,7 +44,7 @@ orbs:
   aws-ecs: circleci/aws-ecs@0.0.10
 version: 2.1
 workflows:
-  run_tests:
+  staging_deploy:
     jobs:
       - test:
           context: staging
@@ -59,11 +53,69 @@ workflows:
               only: staging
       - aws-ecr/build-and-push-image:
           context: staging
+          filters:
+            branches:
+              only: staging
+          requires:
+            - test
           <<: *aws_job_template
       - aws-ecs/deploy-service-update:
           context: staging
+          filters:
+            branches:
+              only: staging
           requires:
             - aws-ecr/build-and-push-image
           <<: *service_template
+
+  uat_deploy:
+    jobs:
+      - test:
+          context: uat
+          filters:
+            branches:
+              only: uat
+      - aws-ecr/build-and-push-image:
+          context: uat
+          filters:
+            branches:
+              only: uat
+          requires:
+            - test
+          <<: *aws_job_template
+      - aws-ecs/deploy-service-update:
+            context: uat
+            requires:
+              - aws-ecr/build-and-push-image
+            <<: *service_template
+
+  production_deploy:
+    jobs:
+      - request-approval:
+          type: approval
+          filters:
+            branches:
+              only: master
+          requires:
+            - aws-ecr/build-and-push-image
+      - test:
+          context: production
+          filters:
+            branches:
+              only: production
+      - aws-ecr/build-and-push-image:
+          context: production
+          filters:
+            branches:
+              only: master
+          requires:
+            - test
+          <<: *aws_job_template
+      - aws-ecs/deploy-service-update:
+            context: production
+            requires:
+              - request-approval
+            <<: *service_template
+
 `;
 };
