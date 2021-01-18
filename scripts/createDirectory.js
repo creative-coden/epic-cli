@@ -9,19 +9,20 @@ module.exports = (function directorySetup() {
     projectProperties,
     set: function set(args) {
       this.appSetup = Object.assign({}, args);
-      const directoryPath = resolve(__dirname, `../../${this.appSetup.appName}`);
+      const directoryPath = resolve(this.appSetup.rootDirectory, `${this.appSetup.appName}`);
+      
       switch (this.appSetup.setup.toLowerCase()) {
         case 'both':
-          this.appSetup.clientDirectory = resolve(__dirname, `${directoryPath}/${this.appSetup.appName}_client`);
-          this.appSetup.serverDirectory = resolve(__dirname, `${directoryPath}/${this.appSetup.appName}_service`);
+          this.appSetup.clientDirectory = resolve(directoryPath, `${this.appSetup.appName}_client`);
+          this.appSetup.serverDirectory = resolve(directoryPath, `${this.appSetup.appName}_service`);
           this.appDirectories = [].concat(this.appSetup.clientDirectory, this.appSetup.serverDirectory, this.appendPath());
           return;
         case 'frontend':
-          this.appSetup.clientDirectory = resolve(__dirname, `${directoryPath}/${this.appSetup.appName}_client`);
+          this.appSetup.clientDirectory = resolve(directoryPath, `${this.appSetup.appName}_client`);
           this.appDirectories = [].concat(this.appSetup.clientDirectory, this.appendPath());
           return;
         case 'backend':
-          this.appSetup.serverDirectory = resolve(__dirname, `${directoryPath}/${this.appSetup.appName}_service`);
+          this.appSetup.serverDirectory = resolve(directoryPath, `${this.appSetup.appName}_service`);
           this.appDirectories = [].concat(this.appSetup.serverDirectory, this.appendPath());
           return;
         default:

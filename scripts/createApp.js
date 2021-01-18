@@ -16,7 +16,11 @@ module.exports = async function createApp() {
       ...appSetupAnswers,
       ...appConfigAnswers,
     };
-    const answers = mergeAnswers(responses);
+    let answers = mergeAnswers(responses);
+    answers = {
+      ...answers,
+      rootDirectory: process.cwd(),
+    };
     runAppSetup(answers);
   } catch (error) {
     console.error(error);
