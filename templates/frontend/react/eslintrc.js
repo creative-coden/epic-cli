@@ -30,12 +30,11 @@ module.exports = function(){
     "cypress/assertion-before-screenshot": "warn",
     "cypress/no-force": "warn",
     "cypress/no-async-tests": "error",
-    "no-unused-expressions": 0,
+    "no-unused-expressions": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/no-explicit-any": 1,
+    "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/no-inferrable-types": [
-      "warn",import
-      {
+      "warn", {
         "ignoreParameters": true
       }
     ],
