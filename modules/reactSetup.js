@@ -1,17 +1,12 @@
 exports.directories = [
-  '.nyc_output',
   '.circleci',
   'shared/tooling',
   'shared/config',
-  'cypress/fixtures',
-  'cypress/integration/features',
-  'cypress/integration/definitions',
-  'cypress/plugins',
-  'cypress/support',
   'src/components',
   'src/components/Home',
-  'src/components/Greetings',
-  'src/components/Helmet'
+  'src/components/Helmet',
+  'tests/mocks',
+  'tests/components',
 ];
 
 exports.packageJsonProperties = {
@@ -19,19 +14,17 @@ exports.packageJsonProperties = {
   scripts: {
     "build": "webpack --progress --config ./shared/tooling/webpack.prod.js",
     "compile-schemas": "$(npm bin)/json2ts -i server/**/schemas/*.json -o ./types",
-    "coverage": "$(npm bin)/nyc report --reporter=lcov --reporter=text",
-    "start": "webpack serve --progress --config ./shared/tooling/webpack.dev.js",
-    "inspect:all": "concurrently -c \"bgBlue.bold,bgMagenta.bold,yellow\" \"npm:inspect:lint\" \"npm:inspect:updates\" \"npm:inspect:license\"",
+    "inspect:all": "npm run inspect:updates && npm run inspect:license",
     "inspect:license": "$(npm bin)/license-checker --production --json --out ./artifacts/license.json --failOn GPLv2",
-    "inspect:lint": "$(npm bin)/eslint --ext .ts,.js --format table",
-    "inspect:sanity-testing": "npm run test:runner -- --env grep=@sanity",
-    "inspect:updates": "$(npm bin)/npm-check",
+    "inspect:sanity-testing": "npm run test -- --env grep=@sanity",
+    "inspect:updates": "$(npm bin)/ncu --doctor -u",
     "offline": "http-server dist",
     "pwa:assets": "$(npm bin)/pwa-asset-generator -i ./src/index.html -m ./src/manifest.webmanifest",
-    "test:coverage": "npm run test:runner && npm run coverage",
-    "test:e2e": "$(npm bin)/cypress open --config-file ./shared/config/cypress.json",
-    "test:runner": "$(npm bin)/cypress run --config-file ./shared/config/cypress-unit.json",
-    "test:unit": "$(npm bin)/cypress open --config-file ./shared/config/cypress-unit.json"
+    "start": "webpack serve --progress --config ./shared/tooling/webpack.dev.js",
+    "test": "$(npm bin)/jest --config ./shared/config/jest.config.json",
+    "test:coverage": "$(npm bin)/jest --config ./shared/config/jest.config.json --coverage",
+    "test:e2e:open": "$(npm bin)/cypress open --config-file ./shared/config/cypress.json",
+    "test:features:all": "cypress run --config-file ./shared/config/cypress.json --spec \"**/*.features\""
   },
   "browserslist": {
     "production": [
@@ -55,27 +48,32 @@ exports.packageJsonProperties = {
     ]
   },
   "cypress-cucumber-preprocessor": {
-    "nonGlobalStepDefinitions": true
+    "nonGlobalStepDefinitions": true,
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
+    }
   },
   "lint-staged": {
     "*.css": [
-      "npx prettier --write",
-      "npx stylelint --fix"
+      "stylelint --fix"
     ],
     "*.{js,tsx,ts}": [
-       "npm run lint",
-       "npx prettier --write",
+      "eslint '*/**/*.{js,ts,tsx}' --format table",
+      "prettier --write"
     ],
     "*.{json,md}": [
-      "npx prettier --write"
-    ],
-  husky: {
-    hooks: {
-      'pre-commit': 'lint-staged',
-      'pre-push': 'npm run inspect:all',
-    },
+      "prettier --write"
+    ]
   },
- }
+ husky: {
+  hooks: {
+    'pre-commit': 'lint-staged',
+    'pre-push': 'npm run inspect:all',
+  },
+},
 };
 
 exports.projectDependencies = {
@@ -83,26 +81,22 @@ exports.projectDependencies = {
   devDependencies: [
     'cypress',
     'cypress-audit',
-    '@istanbuljs/nyc-config-typescript',
     'cypress-cucumber-preprocessor',
-    '@cypress/webpack-preprocessor',
-    'cypress-watch-and-reload',
-    'cypress-react-unit-test',
-    '@cypress/code-coverage',
+    'multiple-cucumber-html-reporter',
     'imagemin-webp',
     'imagemin-webpack-plugin',
     'copy-webpack-plugin',
     'cypress-select-tests',
     'path-browserify',
     'pwa-asset-generator',
-    'cross-env',
+    '@testing-library/jest-dom',
+    '@testing-library/react',
+    '@types/jest',
+    'jest',
+    'jest-extended',
+    'ts-jest',
     'lint-staged ',
     'rimraf',
-    'license-checker',
-    'concurrently',
-    '@babel/core',
-    '@types/chai',
-    '@types/mocha',
     '@types/react',
     '@types/cypress',
     '@types/react-dom',
@@ -113,15 +107,11 @@ exports.projectDependencies = {
     '@types/react-router',
     '@types/react-router-dom',
     '@types/cypress-cucumber-preprocessor',
-    'babel-loader',
     'strip-ansi',
     'browser-sync',
     'clean-webpack-plugin',
-    'concurrently',
-    'cross-env',
     'css-loader',
     'css-modules-typescript-loader',
-    'depcheck',
     'eslint',
     'eslint-config-prettier',
     'eslint-import-resolver-alias',
@@ -130,9 +120,7 @@ exports.projectDependencies = {
     'eslint-plugin-prettier',
     'eslint-plugin-react',
     'eslint-plugin-react-hooks',
-    'eslint-plugin-security',
     'eslint-plugin-sonarjs',
-    'eslint-plugin-chai-friendly',
     'eslint-plugin-cypress',
     'eslint-plugin-jsx-a11y',
     'html-webpack-plugin',
@@ -140,8 +128,6 @@ exports.projectDependencies = {
     'husky',
     'json-schema-to-typescript',
     'license-checker',
-    'lint-staged',
-    'nyc',
     'postcss-loader',
     'postcss-preset-env',
     'prettier',
@@ -168,6 +154,6 @@ exports.projectDependencies = {
     'webpack-nano',
     'workbox-webpack-plugin',
     'depcheck',
-    'npm-check',
+    'npm-check-updates',
   ],
 };

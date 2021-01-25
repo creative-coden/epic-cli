@@ -34,14 +34,31 @@ module.exports = (function fileSetup() {
       }
       return this.appSetup.clientDirectory;
     },
-    copyFoldersOver: async function copyFoldersOver() {
-      if (this.appSetup.setup === 'frontend') {
-        const source = this.projectProperties[this.appSetup.frontend].folderToCopy;
-        const destination = `${this.appSetup.clientDirectory}/shared`;
-        spawn(`cp -R ${source} ${destination}`, {
-          shell: true,
-          stdio: ['ignore', 'ignore', 'inherit'],
-        });
+    deferExecution: function (sources, destinations, timeout) {
+      new Promise(function (resolve, reject) {
+        timeout = setTimeout(resolve, 800);
+      });
+    },
+    copyFoldersOver: async function copyFoldersOver(appLayer) {
+      if (this.appSetup.setup === appLayer) {
+        const sources = this.projectProperties[this.appSetup[appLayer]].folderToCopy;
+        const destinations = `${this.appSetup.clientDirectory}`;
+        let index = sources.length - 1;
+
+        let pauseCopy = setInterval(function () {
+          const path = sources && sources[index] ? Object.keys(sources[index])[0] : null;
+
+          if (!path) {
+            clearInterval(pauseCopy);
+            return;
+          }
+          
+          spawn(`cp -R ${sources[index][path]} ${destinations}/${path}`, {
+            shell: true,
+            stdio: ['ignore', 'ignore', 'inherit'],
+          });
+          index--;
+        }, 800);
       }
     },
     includeAppName: function includeAppName(path) {
@@ -127,7 +144,7 @@ module.exports = (function fileSetup() {
         _files.prependPath();
         await _files.writeToFiles();
         await _files.modifyContentInFile('.env', _files.appendAppNameToEnvFile);
-        await _files.copyFoldersOver();
+        await _files.copyFoldersOver('frontend');
         const results = _files.retrieveResults();
         _files.setCompleted();
         return results;

@@ -1,23 +1,18 @@
 const createCypressJson = require('../templates/frontend/react/shared/config/cypress');
-const createCypressUnitJson = require('../templates/frontend/react/shared/config/cypres.unit');
-const createDefinitionFile = require('../templates/frontend/react/cypress/integration/definitions/definition');
-const createFeatureFile = require('../templates/frontend/react/cypress/integration/features/feature');
-const createStub = require('../templates/frontend/react/cypress/fixtures/stub');
-const createPlugin = require('../templates/frontend/react/cypress/plugins/plugins');
-const createSupport = require('../templates/frontend/react/cypress/support/support');
+const createJestJSON = require('../templates/frontend/react/shared/config/jest');
+const createNginxConf = require('../templates/frontend/react/shared/config/nginx.conf');
 
 const createWebapckDev = require('../templates/frontend/react/shared/tooling/webpack.dev');
 const createWebapckProd = require('../templates/frontend/react/shared/tooling/webpack.prod');
 const createWebapckCommon = require('../templates/frontend/react/shared/tooling/webpack.common');
-const createComponent = require('../templates/frontend/react/src/components/TestSpec/component');
-const createSpec = require('../templates/frontend/react/src/components/TestSpec/spec');
+const createStyleMock = require('../templates/frontend/react/tests/mocks/styleMock');
+const createHomeSpec = require('../templates/frontend/react/tests/components/HomeSpec');
 const createHelmet = require('../templates/frontend/react/src/components/Helmet');
 const createManifestFile = require('../templates/frontend/react/src/manifest');
 const createHTMLFile = require('../templates/frontend/react/src/html');
 
 const createTSConfig = require('../templates/frontend/react/tsconfig.js');
 const createEsLintConfig = require('../templates/frontend/react/eslintrc');
-const createNycFile = require('../templates/frontend/react/nyc.config');
 const createEsLintIgnore = require('../templates/frontend/react/eslintignore');
 const createGitignore = require('../templates/frontend/react/gitignore.js');
 const createPrettier = require('../templates/frontend/react/prettierrc');
@@ -37,19 +32,15 @@ const createHomeCSS = require('../templates/frontend/react/src/components/home/h
 const reactFiles = [
   { directory: '.circleci/config.yml', file: createCircleCIFile },
   { directory: 'shared/config/cypress.json', file: createCypressJson },
-  { directory: 'shared/config/cypress-unit.json', file: createCypressUnitJson },
-  { directory: 'cypress/integration/definitions/definitions.js', file: createDefinitionFile },
-  { directory: 'cypress/integration/features/feature.feature', file: createFeatureFile },
-  { directory: 'cypress/support/index.js', file: createSupport },
-  { directory: 'cypress/plugins/index.js', file: createPlugin },
-  { directory: 'cypress/fixtures/stub.json', file: createStub },
+  { directory: 'shared/config/jest.config.json', file: createJestJSON },
+  { directory: 'shared/config/nginx.conf', file: createNginxConf },
   { directory: 'shared/tooling/webpack.common.js', file: createWebapckCommon },
   { directory: 'shared/tooling/webpack.dev.js', file: createWebapckDev },
   { directory: 'shared/tooling/webpack.prod.js', file: createWebapckProd },
-  { directory: 'src/components/Greetings/Greetings.spec.tsx', file: createComponent },
-  { directory: 'src/components/Greetings/Greetings.tsx', file: createSpec },
   { directory: 'src/components/Helmet/index.tsx', file: createHelmet },
 
+  { directory: 'tests/mocks/styleMock.js', file: createStyleMock },
+  { directory: 'tests/components/Home.spec.tsx', file: createHomeSpec },
   { directory: 'src/components/Home/Home.tsx', file: createHome },
   { directory: 'src/components/Home/index.tsx', file: createHomeEntryFile },
   { directory: 'src/components/Home/home.css', file: createHomeCSS },
@@ -57,7 +48,6 @@ const reactFiles = [
   { directory: 'src/index.html', file: createHTMLFile },
   { directory: 'src/manifest.webmanifest', file: createManifestFile },
   { directory: 'tsconfig.json', file: createTSConfig },
-  { directory: '.nycrc.json', file: createNycFile },
   { directory: '.eslintrc.json', file: createEsLintConfig },
   { directory: '.eslintignore', file: createEsLintIgnore },
   { directory: '.gitignore', file: createGitignore },
@@ -72,4 +62,3 @@ const reactFiles = [
 ];
 
 exports.reactFiles = reactFiles;
-

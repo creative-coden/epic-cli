@@ -1,49 +1,43 @@
-module.exports = function(){
-    return `{
+module.exports = function () {
+  return `{
 "compilerOptions": {
-  "baseUrl": ".",
-  "outDir": "dist",
-  "strict": true,
-  "forceConsistentCasingInFileNames": true,
-  "moduleResolution": "node",
-  "resolveJsonModule": true,
-  "noImplicitAny": true,
-  "noImplicitThis": true,
-  "noImplicitReturns": true,
   "allowJs": true,
-  "checkJs": true,
-  "strictPropertyInitialization": true,
-  "noUncheckedIndexedAccess": true,
-  "noUnusedLocals": true,
-  "noUnusedParameters": true,
-  "alwaysStrict": true,
-  "target": "es5",
-  "strictNullChecks": true,
-  "strictFunctionTypes": true,
-  "noFallthroughCasesInSwitch": true,
-  "declarationMap": true,
-  "strictBindCallApply": true,
-  "skipLibCheck": true,
-  "experimentalDecorators": true,
-  "emitDecoratorMetadata": true,
-  "declaration": true,
-  "module": "ES2020",
-  "lib": ["WebWorker", "dom", "dom.iterable", "esnext"],
-  "jsx": "react",
   "allowSyntheticDefaultImports": true,
-  "allowUnreachableCode": false,
+  "alwaysStrict": true,
+  "baseUrl": ".",
+  "checkJs": true,
+  "declaration": true,
+  "declarationMap": true,
   "downlevelIteration": true,
+  "emitDecoratorMetadata": true,
+  "esModuleInterop": true,
+  "experimentalDecorators": true,
+  "forceConsistentCasingInFileNames": true,
   "importHelpers": true,
   "isolatedModules": true,
-  "esModuleInterop": true,
-  "sourceMap": true,
+  "jsx": "react",
+  "lib": ["WebWorker", "dom", "dom.iterable", "esnext"],
+  "module": "ES2020",
+  "moduleResolution": "node",
+  "noImplicitAny": true,
+  "noImplicitThis": true,
+  "outDir": "dist",
   "paths": {
     "@components/*": ["./src/components/*"],
     "@assets/*": ["./shared/assets/*"]
-  }
+  },
+  "resolveJsonModule": true,
+  "skipLibCheck": true,
+  "sourceMap": true,
+  "strict": true,
+  "strictBindCallApply": true,
+  "strictFunctionTypes": true,
+  "strictNullChecks": true,
+  "strictPropertyInitialization": true,
+  "target": "es5"
 },
-"include": ["./src/**/*", "./cypress/**/*"],
+"include": ["./src/**/*", "./tests/**/*", "./cypress/**/*"],
 "exclude": ["./dist", "node_modules"]
 }
-`
-}
+`;
+};

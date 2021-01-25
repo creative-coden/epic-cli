@@ -3,7 +3,6 @@ module.exports = function(){
   "root": true,
   "parser": "@typescript-eslint/parser",
   "extends": [
-    "plugin:chai-friendly/recommended",
     "plugin:compat/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended",
@@ -13,7 +12,6 @@ module.exports = function(){
   ],
   "plugins": [
     "cypress",
-    "chai-friendly",
     "import",
     "@typescript-eslint",
     "sonarjs",
@@ -33,11 +31,10 @@ module.exports = function(){
     "cypress/no-force": "warn",
     "cypress/no-async-tests": "error",
     "no-unused-expressions": 0,
-    "chai-friendly/no-unused-expressions": 2,
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": 1,
     "@typescript-eslint/no-inferrable-types": [
-      "warn",
+      "warn",import
       {
         "ignoreParameters": true
       }
@@ -69,7 +66,7 @@ module.exports = function(){
       "alias": {
         "map": [
           ["@components", "./src/components"],
-          ["@resources", "./src/resources"]
+          ["@assets", "./shared/assets"]
         ],
         "extensions": [".ts", ".tsx", ".json"]
       }

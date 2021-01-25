@@ -1,18 +1,24 @@
 module.exports = function () {
-  return `FROM ubuntu
+  return `FROM node:14.15 as build
 
-RUN apt-get update -y
+WORKDIR /app
 
-RUN apt-get install -y nano wget curl dialog net-tools
+COPY package*.json ./
 
-RUN apt-get install -y nginx
+RUN npm install --silent
 
-COPY ./dist/ /usr/share/nginx/html/
+COPY . ./
 
-COPY ./dist/ /var/www/html/
+RUN npm run build
+
+FROM nginx:stable-alpine
+
+COPY --from=build /app/dist /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"] 
+CMD ["nginx", "-g", "daemon off;"]
 `;
 };

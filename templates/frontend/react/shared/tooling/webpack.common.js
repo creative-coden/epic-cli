@@ -24,8 +24,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js', '.css', '.json', '.ico'],
     alias: {
       '@components': resolve(__dirname, '../../src/components'),
-      '@shared': resolve(__dirname, '../../src/components/config'),
-      '@assets': resolve(__dirname, '../../src/assets'),
+      '@assets': resolve(__dirname, '../../shared/assets'),
     },
   },
   output: {
@@ -39,13 +38,8 @@ module.exports = {
       cacheGroups: {
         vendor: {
           name: 'vendors',
-          test: /[\/]node_modules[\/]/,
+          test: /[/]node_modules[/]/,
           chunks: 'all',
-        },
-        common: {
-          test: /[\/]src[\/]components[\/]/,
-          chunks: 'all',
-          minSize: 0,
         },
       },
     },
@@ -113,10 +107,10 @@ module.exports = {
     new WorkboxPlugin.GenerateSW({
       skipWaiting: true,
       clientsClaim: true,
-      exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+      exclude: [/.(?:png|jpg|jpeg|svg)$/],
       runtimeCaching: [
         {
-          urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+          urlPattern: /.(?:png|jpg|jpeg|svg)$/,
           handler: 'CacheFirst',
           options: {
             cacheName: 'images',
@@ -129,14 +123,13 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: 'index.html',
-      chunks: ['vendors', 'common', 'app'],
+      chunks: ['vendors', 'app'],
       chunksSortMode: 'manual',
     }),
     new ImageminPlugin({
       plugins: [ImageminWebP({ quality: 50 })],
     }),
   ],
-};
-    
+};  
 `
 }

@@ -9,8 +9,8 @@ export function Home(): React.ReactElement {
   return (
     <>
       <Jumbotron bsPrefix={classes.jumbotron}>
-      <section className={classes.center}>
-        <h1 className={classes.h1}>Hello, world!</h1>
+        <section className={classes.center}>
+          <h1 className={classes.h1}>Hello, world!</h1>
           <p>
             This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or
             information.

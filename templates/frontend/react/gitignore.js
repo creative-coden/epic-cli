@@ -8,6 +8,7 @@ yarn-error.log*
 lerna-debug.log*
 .vscode
 .history/
+dist
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -94,6 +95,7 @@ out
 
 # vuepress build output
 .vuepress/dist
+
 
 # Serverless directories
 .serverless/

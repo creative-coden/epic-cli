@@ -1,6 +1,7 @@
 module.exports = function (name) {
     return `import React, { ReactElement } from 'react';
 import Helmet from 'react-helmet';
+
 import favicon from '@assets/icons/favicon.ico';
 
 export function Head(): ReactElement {
@@ -14,7 +15,7 @@ export function Head(): ReactElement {
       <meta name="language" content="English" />
       <meta name="revisit-after" content="12 days" />
       <meta name="author" content="Creative type" />
-      <link rel="icon" type="image/png" sizes="16x16" href={favicon} />
+      <link rel="icon" type="image/ico" sizes="16x16" href={favicon} />
       <title>${name}</title>
     </Helmet>
   );

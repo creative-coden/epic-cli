@@ -3,7 +3,7 @@ module.exports = function(){
 import ReactDOM from 'react-dom';
 import { Home } from '@components/Home';
 
-export function App() {
+export function App(): React.ReactElement {
   return (
     <div>
       <Home />

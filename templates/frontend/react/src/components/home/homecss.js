@@ -25,7 +25,6 @@ module.exports = function () {
   position: relative;
   text-align: center;
   top: 40%;
-}
-   
+}   
 `;
 };

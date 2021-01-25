@@ -25,6 +25,9 @@ module.exports = {
     directories: reactDirectories,
     packageJsonProperties: reactPackage,
     projectDependencies: reactDependencies,
-    folderToCopy: resolve(__dirname, '../templates/frontend/react/shared/assets'),
+    folderToCopy: [
+      { shared: resolve(__dirname, '../templates/frontend/react/shared/assets') },
+      { cypress: resolve(__dirname, '../templates/frontend/react/cypress') },
+    ],
   },
 };
