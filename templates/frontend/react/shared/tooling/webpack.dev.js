@@ -17,7 +17,7 @@ module.exports = merge(common, {
     hot: true,
     open: true,
     stats: 'errors-only',
-    contentBase: resolve(__dirname, './dist'),
+    contentBase: resolve(__dirname, '../../dist'),
     writeToDisk: true,
     compress: true,
     historyApiFallback: true,

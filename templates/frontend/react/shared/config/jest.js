@@ -9,7 +9,7 @@ module.exports = function () {
     "<rootDir>/tests/components/**/*.[jt]s?(x)",
     "<rootDir>/?(*.)+(spec|test).[jt]s?(x)"
   ],
-  "setupFilesAfterEnv": ["@testing-library/jest-dom", "jest-extended"],
+  "setupFilesAfterEnv": ["@testing-library/jest-dom", "@testing-library/react-hooks", "jest-extended"],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx"],
   "coverageDirectory": "<rootDir>/artifacts/tests/coverage",
   "moduleDirectories": ["node_modules"],

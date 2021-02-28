@@ -3,6 +3,7 @@ module.exports = function(){
   "root": true,
   "parser": "@typescript-eslint/parser",
   "extends": [
+    "plugin:testing-library/recommended",
     "plugin:compat/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:jsx-a11y/recommended",

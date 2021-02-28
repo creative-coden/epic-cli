@@ -21,7 +21,7 @@ module.exports = merge(common, {
     new CleanWebpackPlugin(),
     new WebpackManifestPlugin({
       seed: {
-        name: 'Assets Manifest file',
+        name: 'Assets Manifest file'
       },
     }),
   ],

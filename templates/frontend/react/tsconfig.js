@@ -36,6 +36,7 @@ module.exports = function () {
   "strictPropertyInitialization": true,
   "target": "es5"
 },
+"types": ["cypress"],
 "include": ["./src/**/*", "./tests/**/*", "./cypress/**/*"],
 "exclude": ["./dist", "node_modules"]
 }
